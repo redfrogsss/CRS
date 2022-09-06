@@ -17,7 +17,7 @@ export default function LoginPage() {
             return;
         }
         if(item === "signin") {
-            navigate("/signin");
+            navigate("/register");
         }
     }
 

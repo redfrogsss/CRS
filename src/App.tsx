@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import SigninPage from "./pages/SigninPage";
+import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
             <Routes>
                 <Route index element={<Navigate to="/login" replace />} />
                 <Route path="login" element={<LoginPage />} />
-                <Route path="signin" element={<SigninPage />} />
+                <Route path="register" element={<RegisterPage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
