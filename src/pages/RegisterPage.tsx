@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import EmailField from "../components/loginFields/Email";
+import PasswordField from "../components/loginFields/Password";
+import UsernameField from "../components/loginFields/Username";
 
 export default function RegisterPage() {
-
     const navigate = useNavigate();
 
     const onSubmitHandler = (e: React.FormEvent) => {
@@ -10,7 +12,7 @@ export default function RegisterPage() {
 
         // TODO: implement register feature with database
         navigate("/home");
-    }
+    };
 
     return (
         <div className="bg-slate-300 w-[100%] h-[100vh] grid grid-cols-2 gap-4 content-center place-content-around">
@@ -24,63 +26,37 @@ export default function RegisterPage() {
                 </div>
             </div>
             <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
-                <form className="space-y-6" onSubmit={(e)=>{onSubmitHandler(e)}}>
+                <form
+                    className="space-y-6"
+                    onSubmit={(e) => {
+                        onSubmitHandler(e);
+                    }}
+                >
                     <h5 className="text-xl font-medium text-gray-900 dark:text-white">
                         Register
                     </h5>
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="name@example.com"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="username"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                            Username
-                        </label>
-                        <input
-                            type="username"
-                            name="username"
-                            id="username"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Jacky"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="••••••••"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            required
-                        />
-                    </div>
+                    <EmailField />
+                    <UsernameField />
+                    <PasswordField />
                     <button
                         type="submit"
                         className="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800 mr-2 mb-2 inline-flex justify-center justify-self-center"
                     >
-                        <svg className="mr-2 -ml-1 w-6 h-6" fill="none" role="img" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                        <svg
+                            className="mr-2 -ml-1 w-6 h-6"
+                            fill="none"
+                            role="img"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                            ></path>
+                        </svg>
                         Register
                     </button>
                 </form>
