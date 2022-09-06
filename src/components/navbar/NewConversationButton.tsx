@@ -9,7 +9,7 @@ export default function NewConversationButton() {
             onClick={() => {
                 onClickHandler();
             }}
-            className="text-black hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 my-2"
+            className="text-slate-900 hover:bg-slate-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 my-2"
         >
             <svg
                 className="w-6 h-6"
