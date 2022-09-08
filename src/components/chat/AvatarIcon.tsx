@@ -1,18 +1,13 @@
+import { useEffect, useState } from "react";
+import AvatarIconProps from "../../interfaces/AvatarIconProps";
+
 export default function AvatarIcon() {
+
     return (
-        <div className="overflow-hidden relative w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600 mr-2">
-            <svg
-                className="absolute -left-1 w-12 h-12 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clip-rule="evenodd"
-                ></path>
-            </svg>
-        </div>
+        <img
+            className="p-1 object-cover rounded-full ring-2 ring-gray-300 dark:ring-gray-500 h-10 w-10 mr-2"
+            src="/img/user.png"
+            alt="Bordered avatar"
+        />
     );
 }
