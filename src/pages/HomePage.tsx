@@ -2,6 +2,7 @@ import AvatarIcon from "../components/chat/AvatarIcon";
 import UserTextChat from "../components/chat/UserTextChat";
 import SystemTextChat from "../components/chat/SystemTextChat";
 import SystemImageChat from "../components/chat/SystemImageChat";
+import ResponseButton from "../components/chat/ResponseButton";
 import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
@@ -48,6 +49,9 @@ export default function HomePage() {
                     <UserTextChat />
                     <SystemTextChat />
                     <SystemImageChat />
+                    <UserTextChat />
+                    <SystemTextChat />
+                    <ResponseButton />
 
                     <ChatboxInput />
                 </div>
