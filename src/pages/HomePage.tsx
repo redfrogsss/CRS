@@ -1,6 +1,7 @@
 import AvatarIcon from "../components/chat/AvatarIcon";
 import UserTextChat from "../components/chat/UserTextChat";
 import SystemTextChat from "../components/chat/SystemTextChat";
+import SystemImageChat from "../components/chat/SystemImageChat";
 import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
@@ -43,9 +44,11 @@ export default function HomePage() {
                 </div>
                 <hr className="border-2 border-blue-200" />
                 {/* conversation part in right panel */}
-                <div className="h-[93vh] overflow-scroll relative">
+                <div className="h-[85vh] overflow-scroll relative">
                     <UserTextChat />
                     <SystemTextChat />
+                    <SystemImageChat />
+
                     <ChatboxInput />
                 </div>
                 {/* end of conversation part in right panel */}
