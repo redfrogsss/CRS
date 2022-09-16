@@ -2,7 +2,7 @@ export default function ChatPreview () {
     return (
         <div className="mt-4 mb-2 mx-2">
             <a
-                href="#"
+                href="/home"    // temp
                 onClick={() => {
                     return;
                 }}
