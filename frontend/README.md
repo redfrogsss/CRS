@@ -9,6 +9,13 @@ yarn; # install necessary dependance
 yarn start # start the development environment
 ```
 
+## How to Deploy to Production?
+
+```bash
+docker build frontend -t crs-frontend
+docker run -p "3000:3000" -d crs-frontend
+```
+
 ## Learn More
 
 This project was created by Jacky FAN for the frontend of Capstone Project in PolyU.
