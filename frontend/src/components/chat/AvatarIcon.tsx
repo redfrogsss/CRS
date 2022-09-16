@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import AvatarIconProps from "../../interfaces/AvatarIconProps";
-
 export default function AvatarIcon() {
 
     return (
