@@ -1,0 +1,50 @@
+version: "3.1"
+
+volumes:
+    db_data:
+        driver: local
+    frontend_data:
+        driver: local
+    backend_data: 
+        driver: local
+
+services:
+    db:
+        image: mysql/mysql-server:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: S2h4eqbMvUh2
+            MYSQL_DATABASE: crs
+            MYSQL_USER: crs
+            MYSQL_PASSWORD: Eqkm6EBx9xeP
+        volumes:
+            - db_data:/var/lib/mysql
+            - "./mysql/crs.sql:/docker-entrypoint-initdb.d/crs.sql"
+
+    frontend:
+        build: frontend
+        restart: unless-stopped
+        ports:
+            - 3000:3000
+        environment:
+            MYSQL_DATABASE: crs
+            MYSQL_USER: crs
+            MYSQL_PASSWORD: Eqkm6EBx9xeP
+        volumes:
+            - frontend_data:/app
+
+    backend:
+        build: backend
+        restart: unless-stopped
+        ports:
+            - 3001:5000
+        volumes:
+            - backend_data:/app
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: unless-stopped
+        ports:
+            - 3002:80
+        environment:
+            - PMA_ARBITRARY=1
