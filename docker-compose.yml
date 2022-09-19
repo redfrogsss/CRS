@@ -22,7 +22,10 @@ services:
             - "./mysql/crs.sql:/docker-entrypoint-initdb.d/crs.sql"
 
     frontend:
-        build: frontend
+        build: 
+            context: frontend
+            args:
+                API_URL: backend
         restart: unless-stopped
         ports:
             - 3000:3000
