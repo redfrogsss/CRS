@@ -17,10 +17,18 @@ export default function HomePage() {
     const BackendURL = useContext(BackendUrl);
 
     const displayChatPreview = () => {
-        return chatPreview.map((preview: { username: string; content: string; }) => (
-            <ChatPreview username={preview.username} previewContent={preview.content} />
-        ))
-    }
+        return chatPreview.map(
+            (preview: { username: string; content: string }) => (
+                <>
+                    <ChatPreview
+                        username={preview.username}
+                        previewContent={preview.content}
+                    />
+                    <hr />
+                </>
+            )
+        );
+    };
 
     useEffect(() => {
         axios
@@ -32,7 +40,7 @@ export default function HomePage() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [BackendURL]);
 
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
@@ -55,7 +63,7 @@ export default function HomePage() {
                 <hr className="border-2 border-blue-200" />
                 {/* <ChatPreview /> */}
                 {displayChatPreview()}
-                <hr />
+                {/* <hr /> */}
             </div>
             {/* Right Panel */}
             <div className="w-full col-span-3">
