@@ -20,6 +20,8 @@ services:
         volumes:
             - db_data:/var/lib/mysql
             - "./mysql/crs.sql:/docker-entrypoint-initdb.d/crs.sql"
+        ports:
+            - "3306:3306"
 
     frontend:
         build: 
