@@ -194,6 +194,28 @@ def register():
             connection.commit()
             
             return jsonify({"result" : "success"})
+        
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.values.get("email")
+    password = request.values.get("password")
+    
+    if not email:
+        return jsonify({"error" : "Data 'email' is empty."})
+    if not password:
+        return jsonify({"error" : "Data 'password' is empty."})
+    
+    connection = getConnection()
+    
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM `user` WHERE email = %s AND password = %s"
+            cursor.execute(sql, (email, password))
+            result = cursor.fetchone()
+            if result is None:
+                return jsonify({"result" : "failed"})
+            else:
+                return jsonify({"result" : "success"})
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
