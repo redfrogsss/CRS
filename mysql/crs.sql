@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 17, 2022 at 08:22 AM
+-- Generation Time: Sep 22, 2022 at 02:36 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.0.23
 
@@ -44,7 +44,8 @@ CREATE TABLE `message` (
   `chat_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `content` text
+  `content` text,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------

@@ -1,4 +1,5 @@
 import os   # for os.getenv()
+from datetime import datetime
 import pymysql.cursors
 from flask import Flask, jsonify, request
 app = Flask(__name__)
@@ -61,10 +62,13 @@ def get_chat(id: str):
 # create message
 @app.route("/message/", methods=["POST"])
 def post_chat():
+    now = datetime.now()
+    
     chat_id = request.args.get("chat_id")
     content = request.args.get("content")
     type = request.args.get("type")
     user_id = request.args.get("user_id")
+    created_at = now.strftime("%Y-%m-%d %H:%M:%S")
     
     if not content:
         return jsonify({"error": "Data 'content' is empty. "})
@@ -80,8 +84,8 @@ def post_chat():
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
-            sql = "INSERT INTO `message` (chat_id, user_id, type, content) VALUE (%s, %s, %s, %s)"
-            cursor.execute(sql, (chat_id, user_id, type, content,))
+            sql = "INSERT INTO `message` (chat_id, user_id, type, content, created_at) VALUE (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (chat_id, user_id, type, content, created_at,))
             
             connection.commit()
             return jsonify({"result": "success"})
