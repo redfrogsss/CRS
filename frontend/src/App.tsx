@@ -14,6 +14,7 @@ function App() {
                     <Route path="login" element={<LoginPage />} />
                     <Route path="register" element={<RegisterPage />} />
                     <Route path="home" element={<HomePage />} />
+                    <Route path="/home/:chatId" element={<HomePage />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </BrowserRouter>

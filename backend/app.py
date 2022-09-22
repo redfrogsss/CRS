@@ -180,8 +180,14 @@ def getChatMessages(chat_id: str):
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
-            sql = "SELECT * FROM `message` WHERE chat_id = %s"
+            sql = "SELECT * FROM `message` WHERE chat_id = %s ORDER BY created_at ASC"
             cursor.execute(sql, (chat_id))
+            
+            result = []
+            
+            for row in cursor:
+                result.append(row)
+            return jsonify(result)
             
 @app.route("/register", methods=["POST", "GET"])
 def register():
