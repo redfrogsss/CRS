@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import EmailField from "../components/loginFields/Email";
 import PasswordField from "../components/loginFields/Password";
 import UsernameField from "../components/loginFields/Username";
+import WarningToast from "../components/toasts/Warning";
 import { BackendUrl } from "../context/BackendUrl";
 
 export default function RegisterPage() {
@@ -12,6 +13,8 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const [errorMessage, setErrorMessage] = useState("");
 
     const backendURL = useContext(BackendUrl) + "/register";
 
@@ -62,6 +65,7 @@ export default function RegisterPage() {
                 console.log(response.data);
                 if (response.data.error != undefined) {
                     console.error(response.data.error);
+                    setErrorMessage(response.data.error);
                     return;
                 }
                 if (response.data.result == "success") {
@@ -70,6 +74,7 @@ export default function RegisterPage() {
             })
             .catch((error) => {
                 console.error(error);
+                setErrorMessage(error.toString())
             });
     };
 
@@ -128,6 +133,13 @@ export default function RegisterPage() {
                         Register
                     </button>
                 </form>
+                <div className="mt-2">
+                    {errorMessage.length == 0 ? (
+                        <></>
+                    ) : (
+                        <WarningToast content={errorMessage} closeHandler={()=>{setErrorMessage("")}}/>
+                    )}
+                </div>
             </div>
         </div>
     );
