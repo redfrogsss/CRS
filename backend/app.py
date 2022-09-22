@@ -122,6 +122,32 @@ def post_chat():
             
             connection.commit()
             return jsonify({"result": "success"})
+        
+@app.route("/chatPreview/<string:chat_id>", methods=["GET"])
+def get_chat_preview(chat_id: str):
+    if not chat_id:
+        return jsonify({"error": "Data 'chat_id' is empty."})
+    
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT `chat`.user_a_id, `chat`.user_b_id, `message`.content, `message`.created_at FROM `chat` LEFT JOIN `message` ON `message`.chat_id = `chat`.id  WHERE `chat`.id = %s ORDER BY `message`.created_at DESC LIMIT 1"
+            cursor.execute(sql, (chat_id,))
+            result = cursor.fetchone()
+            if result is None:
+                return jsonify({"error": "No data fetched."})
+            return jsonify(result)
+            
+@app.route("/chatMessages/<string:chat_id>", methods=["GET"])
+def getChatMessages(chat_id: str):
+    if not chat_id:
+        return jsonify({"error": "Data `chat_id` is empty. "})
+    
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM `message` WHERE chat_id = %s"
+            cursor.execute(sql, (chat_id))
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
