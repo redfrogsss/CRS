@@ -110,6 +110,20 @@ def post_message():
             connection.commit()
             return jsonify({"result": "success"})
         
+
+@app.route("/chat", methods=["GET"])
+def get_all_chat():
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id`"
+            cursor.execute(sql)
+            
+            result = []
+            
+            for row in cursor:
+                result.append(row)
+            return jsonify(result)
         
 @app.route("/chat/<string:id>", methods=["GET"])
 def get_chat(id: str):

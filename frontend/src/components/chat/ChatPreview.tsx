@@ -1,8 +1,16 @@
-export default function ChatPreview () {
+interface ChatPreviewInterface {
+    username: string;
+    previewContent: string;
+}
+
+export default function ChatPreview({
+    username,
+    previewContent,
+}: ChatPreviewInterface) {
     return (
         <div className="mt-4 mb-2 mx-2">
             <a
-                href="/home"    // temp
+                href="/home" // temp
                 onClick={() => {
                     return;
                 }}
@@ -15,8 +23,8 @@ export default function ChatPreview () {
                     />
                 </div>
                 <div className="inline-block align-top">
-                    <div className="font-bold">CRS Bill Gates</div>
-                    <div>You: Sounds Good, Thanks.</div>
+                    <div className="font-bold">{username}</div>
+                    <div>{previewContent}</div>
                 </div>
             </a>
         </div>

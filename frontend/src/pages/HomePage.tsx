@@ -7,8 +7,33 @@ import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
 import SettingButton from "../components/navbar/SettingButton";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { BackendUrl } from "../context/BackendUrl";
 
 export default function HomePage() {
+    const [chatPreview, setChatPreview] = useState<any>([]);
+
+    const BackendURL = useContext(BackendUrl);
+
+    const displayChatPreview = () => {
+        return chatPreview.map((preview: { username: string; content: string; }) => (
+            <ChatPreview username={preview.username} previewContent={preview.content} />
+        ))
+    }
+
+    useEffect(() => {
+        axios
+            .get(BackendURL + "/chat")
+            .then((result) => {
+                console.log(result.data);
+                setChatPreview(result.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
             {/* Left Panel */}
@@ -28,7 +53,8 @@ export default function HomePage() {
                     </div>
                 </div>
                 <hr className="border-2 border-blue-200" />
-                <ChatPreview />
+                {/* <ChatPreview /> */}
+                {displayChatPreview()}
                 <hr />
             </div>
             {/* Right Panel */}
