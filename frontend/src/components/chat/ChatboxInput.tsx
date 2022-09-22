@@ -1,17 +1,25 @@
-export default function ChatboxInput () {
+import React from "react";
+
+interface ChatboxInputInterface {
+    onSubmitHandler?: (e: React.FormEvent<HTMLFormElement>) => void,
+    onChangeHandler?: (e: React.FormEvent<HTMLInputElement>) => void,
+    value?: string,
+}
+
+export default function ChatboxInput ({ onSubmitHandler, onChangeHandler, value } : ChatboxInputInterface) {
     return (
         <div className="w-[74%] bg-white bottom-0 right-0 justify-end flex fixed">
             <div className="h-full w-full pt-2 pb-4 px-2">
                 <form
-                    onSubmit={() => {
-                        return false;
-                    }}
+                    onSubmit={onSubmitHandler}
                 >
                     <input
                         type="text"
                         id="base-input"
                         placeholder="say something..."
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[calc(100%-114px-4px-8px)] px-2.5 py-[9px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 inline-block align-top"
+                        onChange={onChangeHandler}
+                        value={value}
                     />
                     <button
                         type="submit"

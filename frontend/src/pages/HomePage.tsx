@@ -7,7 +7,7 @@ import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
 import SettingButton from "../components/navbar/SettingButton";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BackendUrl } from "../context/BackendUrl";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,10 @@ import { useParams } from "react-router-dom";
 export default function HomePage() {
     const [chatPreview, setChatPreview] = useState<any>([]);
     const [chatMessages, setChatMessages] = useState<any>([]);
+
+    const [chatboxInputValue, setChatboxInputValue] = useState<string>("");
+
+    const [forceUpdate, setForceUpdate] = useState(0);
 
     const BackendURL = useContext(BackendUrl);
 
@@ -35,12 +39,44 @@ export default function HomePage() {
     };
 
     const displayChatMessages = () => {
-        return chatMessages.map(( message: { user_id: number; content: string} ) => (
-            <>
-                {message.user_id === 1? <UserTextChat content={message.content} /> : <SystemTextChat content={message.content}/>}
-            </>
-        ))
-    }
+        return chatMessages.map(
+            (message: { user_id: number; content: string }) => (
+                <>
+                    {message.user_id === 1 ? (
+                        <UserTextChat content={message.content} />
+                    ) : (
+                        <SystemTextChat content={message.content} />
+                    )}
+                </>
+            )
+        );
+    };
+
+    const onChatboxInputSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(chatboxInputValue);
+
+        const UrlWithQuery = new URL(BackendURL + "/message");
+        UrlWithQuery.searchParams.append("user_id", "1");
+        UrlWithQuery.searchParams.append("chat_id", "1");
+        UrlWithQuery.searchParams.append("type", "text");
+        UrlWithQuery.searchParams.append("content", chatboxInputValue);
+
+        axios
+            .post(UrlWithQuery.href)
+            .then((result) => {
+                console.log(result.data);
+                setChatboxInputValue("");
+                setForceUpdate((forceUpdate) => forceUpdate + 1);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const onChatboxInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setChatboxInputValue(e.currentTarget.value);
+    };
 
     useEffect(() => {
         axios
@@ -63,7 +99,7 @@ export default function HomePage() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [chatId, BackendURL]);
+    }, [chatId, BackendURL, forceUpdate]);
 
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
@@ -112,8 +148,11 @@ export default function HomePage() {
 
                     {displayChatMessages()}
 
-
-                    <ChatboxInput />
+                    <ChatboxInput
+                        onSubmitHandler={onChatboxInputSubmit}
+                        onChangeHandler={onChatboxInputChange}
+                        value={chatboxInputValue}
+                    />
                 </div>
                 {/* end of conversation part in right panel */}
             </div>
