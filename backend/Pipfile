@@ -9,6 +9,7 @@ python-dotenv = "*"
 pymysql = "*"
 mysql-connector-python = "*"
 cryptography = "*"
+flask-cors = "*"
 
 [dev-packages]
 

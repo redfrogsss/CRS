@@ -1,8 +1,11 @@
+from operator import truediv
 import os   # for os.getenv()
 from datetime import datetime
 import pymysql.cursors
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 app = Flask(__name__)
+cors = CORS(app)
 
 def getConnection():
     # Connect to the database
@@ -17,6 +20,23 @@ def isValidType(type: str):
     if not (type == "text" or type == "image"):
         return False
     return True
+
+def isDuplicatedUserEmail(email: str):
+    
+    if not email:
+        return False
+    
+    connection = getConnection()
+    
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT email FROM `user` WHERE email = %s"
+            cursor.execute(sql,(email))
+            result = cursor.fetchone()
+            if result is None:
+                return False
+            else:
+                return True
 
 # Start of Sample Code
 
@@ -148,6 +168,32 @@ def getChatMessages(chat_id: str):
         with connection.cursor() as cursor:
             sql = "SELECT * FROM `message` WHERE chat_id = %s"
             cursor.execute(sql, (chat_id))
+            
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    email = request.values.get("email")
+    username = request.values.get("username")
+    password = request.values.get("password")
+    
+    if not email:
+        return jsonify({"error" : "Data 'email' is empty."})
+    if not username:
+        return jsonify({"error" : "Data 'username' is empty."})
+    if not password:
+        return jsonify({"error" : "Data 'password' is empty."})
+    if isDuplicatedUserEmail(email) == True:
+        return jsonify({"error" : "Data 'email' is already exist in database."})
+
+    connection = getConnection()
+    
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO `user` (username, email, password) VALUE (%s, %s, %s)"
+            cursor.execute(sql, (username, email, password))
+            
+            connection.commit()
+            
+            return jsonify({"result" : "success"})
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
