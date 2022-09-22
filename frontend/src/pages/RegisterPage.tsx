@@ -63,12 +63,12 @@ export default function RegisterPage() {
             .post(UrlWithQuery.href)
             .then((response) => {
                 console.log(response.data);
-                if (response.data.error != undefined) {
+                if (response.data.error !== undefined) {
                     console.error(response.data.error);
                     setErrorMessage(response.data.error);
                     return;
                 }
-                if (response.data.result == "success") {
+                if (response.data.result === "success") {
                     navigate("/home");
                 }
             })
@@ -134,7 +134,7 @@ export default function RegisterPage() {
                     </button>
                 </form>
                 <div className="mt-2">
-                    {errorMessage.length == 0 ? (
+                    {errorMessage.length === 0 ? (
                         <></>
                     ) : (
                         <WarningToast content={errorMessage} closeHandler={()=>{setErrorMessage("")}}/>
