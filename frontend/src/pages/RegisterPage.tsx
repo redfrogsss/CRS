@@ -6,8 +6,14 @@ import PasswordField from "../components/loginFields/Password";
 import UsernameField from "../components/loginFields/Username";
 import WarningToast from "../components/toasts/Warning";
 import { BackendUrl } from "../context/BackendUrl";
+import { PageInterface } from "../interfaces/PageInterface";
 
-export default function RegisterPage() {
+export default function RegisterPage({
+    currentUsername,
+    setCurrentUsername,
+    currentUserID,
+    setCurrentUserID
+}: PageInterface) {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -74,7 +80,7 @@ export default function RegisterPage() {
             })
             .catch((error) => {
                 console.error(error);
-                setErrorMessage(error.toString())
+                setErrorMessage(error.toString());
             });
     };
 
@@ -137,7 +143,12 @@ export default function RegisterPage() {
                     {errorMessage.length === 0 ? (
                         <></>
                     ) : (
-                        <WarningToast content={errorMessage} closeHandler={()=>{setErrorMessage("")}}/>
+                        <WarningToast
+                            content={errorMessage}
+                            closeHandler={() => {
+                                setErrorMessage("");
+                            }}
+                        />
                     )}
                 </div>
             </div>

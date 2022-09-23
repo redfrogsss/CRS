@@ -10,9 +10,17 @@ import SettingButton from "../components/navbar/SettingButton";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BackendUrl } from "../context/BackendUrl";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { PageInterface } from "../interfaces/PageInterface";
 
-export default function HomePage() {
+export default function HomePage({
+    currentUsername,
+    setCurrentUsername,
+    currentUserID,
+    setCurrentUserID
+}: PageInterface) {
+    const navigate = useNavigate();
+
     const [chatPreview, setChatPreview] = useState<any>([]);
     const [chatMessages, setChatMessages] = useState<any>([]);
 
@@ -100,6 +108,12 @@ export default function HomePage() {
                 console.error(error);
             });
     }, [chatId, BackendURL, forceUpdate]);
+
+    useEffect(() => {
+        if (currentUsername === undefined) {
+            navigate("/login");
+        }
+    });
 
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">

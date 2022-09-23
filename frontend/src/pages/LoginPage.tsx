@@ -1,12 +1,18 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmailField from "../components/loginFields/Email";
 import PasswordField from "../components/loginFields/Password";
 import WarningToast from "../components/toasts/Warning";
 import { BackendUrl } from "../context/BackendUrl";
+import { PageInterface } from "../interfaces/PageInterface";
 
-export default function LoginPage() {
+export default function LoginPage({
+    currentUsername,
+    setCurrentUsername,
+    currentUserID,
+    setCurrentUserID
+}: PageInterface) {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -40,10 +46,16 @@ export default function LoginPage() {
                 console.log(result.data.result);
                 let loginStatus = result.data.result;
                 if (loginStatus === "success") {
+                    if (setCurrentUsername !== undefined) {
+                        setCurrentUsername(result.data.username);
+                    }
+                    if (setCurrentUserID !== undefined) {
+                        setCurrentUserID(result.data.user_id);
+                    }
                     navigate("/home");
                 } else {
                     // print error
-                    setErrorMessage("Login Failed")
+                    setErrorMessage("Login Failed");
                 }
             })
             .catch((error) => {
@@ -59,6 +71,12 @@ export default function LoginPage() {
             navigate("/register");
         }
     };
+
+    useEffect(() => {
+        if(currentUserID !== undefined) {
+            navigate("/home");
+        }
+    }, [])
 
     return (
         <div className="bg-slate-300 w-[100%] h-[100vh] grid grid-cols-2 gap-4 content-center place-content-around">
@@ -130,7 +148,16 @@ export default function LoginPage() {
                     </button>
                 </form>
                 <div className="mt-2">
-                    {errorMessage.length === 0? <></> : <WarningToast content={errorMessage} closeHandler={()=>{setErrorMessage("")}}/>}
+                    {errorMessage.length === 0 ? (
+                        <></>
+                    ) : (
+                        <WarningToast
+                            content={errorMessage}
+                            closeHandler={() => {
+                                setErrorMessage("");
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
