@@ -159,7 +159,10 @@ def post_chat():
             cursor.execute(sql, (user_a_id, user_b_id,))
 
             connection.commit()
-            return jsonify({"result": "success"})
+
+            chat_id = cursor.lastrowid
+
+            return jsonify({"result": "success", "chat_id": chat_id})
 
 
 @app.route("/chatPreview/<string:chat_id>", methods=["GET"])
@@ -220,7 +223,11 @@ def register():
 
             connection.commit()
 
-            return jsonify({"result": "success"})
+            sql = "SELECT id FROM `user` WHERE username = %s AND email = %s"
+            cursor.execute(sql, (username, email))
+            selectResult = cursor.fetchone()
+
+            return jsonify({"result": "success", "user_id": selectResult["id"]})
 
 
 @app.route("/login", methods=["POST"])

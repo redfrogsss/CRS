@@ -17,7 +17,7 @@ export default function HomePage({
     currentUsername,
     setCurrentUsername,
     currentUserID,
-    setCurrentUserID
+    setCurrentUserID,
 }: PageInterface) {
     const navigate = useNavigate();
 
@@ -86,6 +86,53 @@ export default function HomePage({
         setChatboxInputValue(e.currentTarget.value);
     };
 
+    const onNewConversationButtonClick = (e: React.MouseEvent) => {
+        const registerURL = new URL(BackendURL + "/register");
+        const username =
+            "SystemUser" + Math.floor(Math.random() * 99999).toString();
+        registerURL.searchParams.append("email", username + "@crs.com");
+        registerURL.searchParams.append("username", username);
+        registerURL.searchParams.append("password", "123456");
+
+        axios
+            .post(registerURL.href)
+            .then((response) => {
+                if (response.data.error !== undefined) {
+                    console.error(response.data.error);
+                    return;
+                }
+                if (response.data.result === "success") {
+                    let user_id = response.data.user_id;
+
+                    const createChatURL = new URL(BackendURL + "/chat");
+                    if (currentUserID !== undefined)
+                        createChatURL.searchParams.append(
+                            "user_a_id",
+                            currentUserID
+                        );
+                    createChatURL.searchParams.append("user_b_id", user_id);
+
+                    axios
+                        .post(createChatURL.href)
+                        .then((result) => {
+                            if (result.data.result === "success") {
+                                let chat_id = result.data.chat_id;
+                                setForceUpdate(
+                                    (forceUpdate) => forceUpdate + 1
+                                );
+                                navigate("/home/" + chat_id);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     useEffect(() => {
         axios
             .get(BackendURL + "/chat")
@@ -95,7 +142,7 @@ export default function HomePage({
             .catch((error) => {
                 console.error(error);
             });
-    }, [BackendURL]);
+    }, [BackendURL, forceUpdate]);
 
     useEffect(() => {
         axios
@@ -128,7 +175,9 @@ export default function HomePage({
                     </div>
                     <div className="justify-self-end">
                         <div className="flex items-center justify-center text-2xl w-full h-full font-bold">
-                            <NewConversationButton />
+                            <NewConversationButton
+                                onClickHandler={onNewConversationButtonClick}
+                            />
                             <SettingButton />
                         </div>
                     </div>
