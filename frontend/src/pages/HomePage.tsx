@@ -12,6 +12,7 @@ import axios from "axios";
 import { BackendUrl } from "../context/BackendUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { PageInterface } from "../interfaces/PageInterface";
+import ChatHeader from "../components/chat/ChatHeader";
 
 export default function HomePage({
     currentUsername,
@@ -23,6 +24,7 @@ export default function HomePage({
 
     const [chatPreview, setChatPreview] = useState<any>([]);
     const [chatMessages, setChatMessages] = useState<any>([]);
+    const [chatHeader, setChatHeader] = useState<string>("");
 
     const [chatboxInputValue, setChatboxInputValue] = useState<string>("");
 
@@ -146,7 +148,7 @@ export default function HomePage({
 
     useEffect(() => {
         axios
-            .get(BackendURL + "/chat")
+            .get(BackendURL + "/chatPreview")
             .then((result) => {
                 setChatPreview(result.data);
             })
@@ -166,6 +168,31 @@ export default function HomePage({
                 console.error(error);
             });
     }, [chatId, BackendURL, forceUpdate]);
+
+    useEffect(() => {
+        axios
+            .get(BackendURL + "/chat/" + chatId)
+            .then((result) => {
+                if (result.data.error !== undefined) {
+                    console.error(result.data.error);
+                } else {
+                    let user_a_name = result.data.user_a_name;
+                    let user_b_name = result.data.user_b_name;
+                    let user_a_id = result.data.user_a_id;
+                    let user_b_id = result.data.user_b_id;
+
+                    if(user_a_id === currentUserID) {
+                        setChatHeader(user_b_name);
+                    }
+                    if(user_b_id === currentUserID) {
+                        setChatHeader(user_a_name);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error();
+            });
+    });
 
     useEffect(() => {
         if (currentUsername === undefined) {
@@ -202,10 +229,11 @@ export default function HomePage({
             <div className="w-full col-span-3">
                 <div className="grid grid-cols-3 w-full h-[8vh]">
                     <div>
-                        <h2 className="flex items-center justify-start text-lg w-full h-full mx-4">
+                        {/* <h2 className="flex items-center justify-start text-lg w-full h-full mx-4">
                             <AvatarIcon />
                             CRS Bill Gates
-                        </h2>
+                        </h2> */}
+                        <ChatHeader username={chatHeader} />
                     </div>
                     <div></div>
                     <div className="justify-self-end"></div>

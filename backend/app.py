@@ -113,8 +113,8 @@ def post_message():
             return jsonify({"result": "success"})
 
 
-@app.route("/chat", methods=["GET"])
-def get_all_chat():
+@app.route("/chatPreview", methods=["GET"])
+def get_chat_preview():
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
@@ -135,7 +135,7 @@ def get_chat(id: str):
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
-            sql = "SELECT * from `chat` WHERE `id` = %s"
+            sql = "SELECT C.*, U1.username AS user_a_name, U2.username AS user_b_name from `chat` AS C LEFT JOIN `user` AS U1 ON C.user_a_id = U1.id LEFT JOIN `user` AS U2 ON user_b_id = U2.id WHERE C.`id` = %s"
             cursor.execute(sql, (id,))
             result = cursor.fetchone()
             if result is None:
@@ -163,22 +163,6 @@ def post_chat():
             chat_id = cursor.lastrowid
 
             return jsonify({"result": "success", "chat_id": chat_id})
-
-
-@app.route("/chatPreview/<string:chat_id>", methods=["GET"])
-def get_chat_preview(chat_id: str):
-    if not chat_id:
-        return jsonify({"error": "Data 'chat_id' is empty."})
-
-    connection = getConnection()
-    with connection:
-        with connection.cursor() as cursor:
-            sql = "SELECT `chat`.user_a_id, `chat`.user_b_id, `message`.content, `message`.created_at FROM `chat` LEFT JOIN `message` ON `message`.chat_id = `chat`.id  WHERE `chat`.id = %s ORDER BY `message`.created_at DESC LIMIT 1"
-            cursor.execute(sql, (chat_id,))
-            result = cursor.fetchone()
-            if result is None:
-                return jsonify({"error": "No data fetched."})
-            return jsonify(result)
 
 
 @app.route("/chatMessages/<string:chat_id>", methods=["GET"])
