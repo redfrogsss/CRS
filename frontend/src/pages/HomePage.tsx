@@ -31,14 +31,23 @@ export default function HomePage({
     const BackendURL = useContext(BackendUrl);
 
     const { chatId } = useParams();
+    const [chatIdState, setChatIdState] = useState(chatId);
+    useEffect(() => {
+        setChatIdState(chatId);
+    }, [chatId]);
 
     const displayChatPreview = () => {
         return chatPreview.map(
-            (preview: { username: string; content: string }) => (
+            (preview: {
+                username: string;
+                content: string;
+                chat_id: string;
+            }) => (
                 <>
                     <ChatPreview
                         username={preview.username}
                         previewContent={preview.content}
+                        chat_id={preview.chat_id}
                     />
                     <hr />
                 </>
@@ -65,8 +74,10 @@ export default function HomePage({
         console.log(chatboxInputValue);
 
         const UrlWithQuery = new URL(BackendURL + "/message");
-        UrlWithQuery.searchParams.append("user_id", "1");
-        UrlWithQuery.searchParams.append("chat_id", "1");
+        if (currentUserID !== undefined)
+            UrlWithQuery.searchParams.append("user_id", currentUserID);
+        if (chatIdState !== undefined)
+            UrlWithQuery.searchParams.append("chat_id", chatIdState);
         UrlWithQuery.searchParams.append("type", "text");
         UrlWithQuery.searchParams.append("content", chatboxInputValue);
 

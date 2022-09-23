@@ -1,18 +1,27 @@
+import { useNavigate } from "react-router-dom";
+
 interface ChatPreviewInterface {
     username: string;
     previewContent: string;
+    chat_id: string;
 }
 
 export default function ChatPreview({
     username,
     previewContent,
+    chat_id,
 }: ChatPreviewInterface) {
+    const navigate = useNavigate();
+
+    const href = "/home/" + chat_id;
+
     return (
         <div className="mt-4 mb-2 mx-2">
             <a
-                href="/home" // temp
-                onClick={() => {
-                    return;
+                href={href} // temp
+                onClick={(e) => {
+                    e.preventDefault();
+                    navigate(href);
                 }}
             >
                 <div className="inline-block">
