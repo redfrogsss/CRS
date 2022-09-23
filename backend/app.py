@@ -118,7 +118,7 @@ def get_chat_preview():
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
-            sql = "SELECT C.id AS chat_id, U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id`"
+            sql = "SELECT C.id AS chat_id, U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id` AND M.id = (SELECT MAX(id) FROM message AS M WHERE M.chat_id = C.`id`); "
             cursor.execute(sql)
 
             result = []
