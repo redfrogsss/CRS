@@ -25,6 +25,7 @@ export default function HomePage({
     const [chatPreview, setChatPreview] = useState<any>([]);
     const [chatMessages, setChatMessages] = useState<any>([]);
     const [chatHeader, setChatHeader] = useState<string>("");
+    const [chatTargetID, setChatTargetID] = useState<string>("");
 
     const [chatboxInputValue, setChatboxInputValue] = useState<string>("");
 
@@ -34,6 +35,8 @@ export default function HomePage({
 
     const { chatId } = useParams();
     const [chatIdState, setChatIdState] = useState(chatId);
+
+    const [messageUpdate, setMessageUpdate] = useState(true);
     useEffect(() => {
         setChatIdState(chatId);
     }, [chatId]);
@@ -57,11 +60,11 @@ export default function HomePage({
         );
     };
 
-    const displayChatMessages = () => {
+    const displayChatMessages = (currentUserID: string) => {
         return chatMessages.map(
             (message: { user_id: number; content: string }) => (
                 <>
-                    {message.user_id === 1 ? (
+                    {message.user_id.toString() === currentUserID ? (
                         <UserTextChat content={message.content} />
                     ) : (
                         <SystemTextChat content={message.content} />
@@ -87,8 +90,20 @@ export default function HomePage({
             .post(UrlWithQuery.href)
             .then((result) => {
                 console.log(result.data);
-                setChatboxInputValue("");
-                setForceUpdate((forceUpdate) => forceUpdate + 1);
+
+                const UrlWithQuery = new URL(BackendURL + "/input_queue");
+
+                if (currentUserID !== undefined)
+                    UrlWithQuery.searchParams.append("user_id", chatTargetID);
+                if (chatIdState !== undefined)
+                    UrlWithQuery.searchParams.append("chat_id", chatIdState);
+                UrlWithQuery.searchParams.append("message", chatboxInputValue);
+
+                axios.post(UrlWithQuery.href).then((result) => {
+                    console.log(result.data);
+                    setChatboxInputValue("");
+                    setForceUpdate((forceUpdate) => forceUpdate + 1);
+                })
             })
             .catch((error) => {
                 console.error(error);
@@ -183,6 +198,7 @@ export default function HomePage({
 
                     if(user_a_id === currentUserID) {
                         setChatHeader(user_b_name);
+                        setChatTargetID(user_b_id);
                     }
                     if(user_b_id === currentUserID) {
                         setChatHeader(user_a_name);
@@ -199,6 +215,23 @@ export default function HomePage({
             navigate("/login");
         }
     });
+
+    // force update for chat message update
+    useEffect(() => {
+        const delay = () => {
+            return new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        const messageUpdate = () => {
+            delay().then(()=>{
+                setForceUpdate((forceUpdate) => forceUpdate + 1);
+                messageUpdate();
+            })
+        }
+
+        messageUpdate();
+
+    }, [])
 
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
@@ -248,7 +281,7 @@ export default function HomePage({
                     <SystemTextChat />
                     <ResponseButton /> */}
 
-                    {displayChatMessages()}
+                    {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())}
 
                     <ChatboxInput
                         onSubmitHandler={onChatboxInputSubmit}

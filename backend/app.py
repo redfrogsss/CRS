@@ -93,14 +93,19 @@ def post_message():
     created_at = now.strftime("%Y-%m-%d %H:%M:%S")
 
     if not content:
+        print("Data 'content' is empty.")
         return jsonify({"error": "Data 'content' is empty. "})
     if not type:
+        print("Data 'type' is empty.")
         return jsonify({"error": "Data 'type' is empty. "})
     if not isValidType(type):
+        print("Data 'type' is invalid.")
         return jsonify({"error": "Data 'type' is not valid."})
     if not user_id:
+        print("Data 'user_id' is empty.")
         return jsonify({"error": "Data 'user_id' is empty."})
     if not chat_id:
+        print("Data 'chat_id' is empty.")
         return jsonify({"error": "Data 'chat_id' is empty."})
 
     connection = getConnection()
@@ -235,6 +240,70 @@ def login():
                 return jsonify({"result": "failed"})
             else:
                 return jsonify({"result": "success", "username": result["username"], "user_id": result["id"]})
+
+@app.route("/input_queue", methods=["POST"])
+def postInputQueue():
+    chat_id = request.values.get("chat_id")
+    message = request.values.get("message")
+    user_id = request.values.get("user_id")
+
+    if not chat_id:
+        return jsonify({"error": "Data 'chat_id' is missing."})
+    if not message:
+        return jsonify({"error": "Data 'message' is missing."})
+    if not user_id:
+        return jsonify({"error": "Data 'user_id' is missing."})
+    
+    connection = getConnection()
+
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO `input_queue` (chat_id, message, user_id) VALUE (%s, %s, %s)"
+            print(sql)
+            cursor.execute(sql, (chat_id, message, user_id))
+
+            connection.commit()
+
+            return jsonify({"result": "success"})
+
+        
+@app.route("/input_queue", methods=["GET"])
+def getInputQueue():
+    connection = getConnection()
+
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM `input_queue` WHERE done = 0 ORDER BY id DESC LIMIT 1;"
+            cursor.execute(sql)
+            selectResult = cursor.fetchone()
+            
+            if selectResult is None:
+                return jsonify({"result": "None"})
+            else:
+                return jsonify({"result": selectResult})
+
+
+@app.route("/input_queue", methods=["PUT"])
+def putInputQueue():
+    connection = getConnection()
+
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM `input_queue` WHERE done = 0 ORDER BY id DESC LIMIT 1;"
+            cursor.execute(sql)
+            selectResult = cursor.fetchone()
+            
+            if selectResult is None:
+                return jsonify({"result": "None"})
+
+            target_id = selectResult["id"]
+
+            sql = "UPDATE `input_queue` SET `done` = '1' WHERE `input_queue`.`id` = %s"
+            cursor.execute(sql, (target_id))
+
+            connection.commit()
+
+            return jsonify({"result": "success"})
 
 
 if __name__ == '__main__':
