@@ -19,6 +19,7 @@ export default function ChatPreview({
         <div className="mt-4 mb-2 mx-2">
             <a
                 href={href} // temp
+                className="grid grid-cols-4"
                 onClick={(e) => {
                     e.preventDefault();
                     navigate(href);
@@ -31,9 +32,9 @@ export default function ChatPreview({
                         alt="Bordered avatar"
                     />
                 </div>
-                <div className="inline-block align-top">
+                <div className="inline-block align-top col-span-3">
                     <div className="font-bold">{username}</div>
-                    <div>{previewContent}</div>
+                    <div className="truncate">{previewContent}</div>
                 </div>
             </a>
         </div>
