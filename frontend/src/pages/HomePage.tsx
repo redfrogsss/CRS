@@ -62,12 +62,12 @@ export default function HomePage({
 
     const displayChatMessages = (currentUserID: string) => {
         return chatMessages.map(
-            (message: { user_id: number; content: string }) => (
+             (message: { user_id: number; content: string; created_at: string }) => (
                 <>
                     {message.user_id.toString() === currentUserID ? (
-                        <UserTextChat content={message.content} />
+                        <UserTextChat content={message.content} timestamp={message.created_at} />
                     ) : (
-                        <SystemTextChat content={message.content} />
+                        <SystemTextChat content={message.content} timestamp={message.created_at} />
                     )}
                 </>
             )
