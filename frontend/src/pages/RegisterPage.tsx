@@ -75,7 +75,7 @@ export default function RegisterPage({
                     return;
                 }
                 if (response.data.result === "success") {
-                    navigate("/home");
+                    navigate("/login?regSuccess=true");
                 }
             })
             .catch((error) => {

@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import EmailField from "../components/loginFields/Email";
 import PasswordField from "../components/loginFields/Password";
 import WarningToast from "../components/toasts/Warning";
+import RegisterSuccessToast from "../components/toasts/RegisterSuccess";
 import { BackendUrl } from "../context/BackendUrl";
 import { PageInterface } from "../interfaces/PageInterface";
 
@@ -14,6 +15,20 @@ export default function LoginPage({
     setCurrentUserID
 }: PageInterface) {
     const navigate = useNavigate();
+
+    let [searchParams, setSearchParams] = useSearchParams();
+    const [regSuccessMessage, setRegSuccessMessage] = useState("");
+
+    useEffect(()=> {
+        // show register success
+        console.log("regSuccess = " , searchParams.get("regSuccess"))
+
+        let regSuccess = searchParams.get("regSuccess");
+
+        if (!(regSuccess === undefined || regSuccess === null || regSuccess.length === 0)) {
+            setRegSuccessMessage("Register Success");
+        }
+    }, []);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -155,6 +170,14 @@ export default function LoginPage({
                             content={errorMessage}
                             closeHandler={() => {
                                 setErrorMessage("");
+                            }}
+                        />
+                    )}
+                    {regSuccessMessage.length === 0 ? (<></>) : (
+                        <RegisterSuccessToast 
+                            content={regSuccessMessage}
+                            closeHandler={()=>{
+                                setRegSuccessMessage("");
                             }}
                         />
                     )}
