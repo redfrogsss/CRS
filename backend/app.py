@@ -40,6 +40,23 @@ def isDuplicatedUserEmail(email: str):
             else:
                 return True
 
+def isDuplicatedUserName(name: str):
+
+    if not name:
+        return False
+
+    connection = getConnection()
+
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT email FROM `user` WHERE username = %s"
+            cursor.execute(sql, (name))
+            result = cursor.fetchone()
+            if result is None:
+                return False
+            else:
+                return True
+
 # Start of Sample Code
 
 
@@ -120,11 +137,16 @@ def post_message():
 
 @app.route("/chatPreview", methods=["GET"])
 def get_chat_preview():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        print("Data 'user_id' is empty.")
+
     connection = getConnection()
     with connection:
         with connection.cursor() as cursor:
-            sql = "SELECT C.id AS chat_id, U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id` AND M.id = (SELECT MAX(id) FROM message AS M WHERE M.chat_id = C.`id`) ORDER BY M.created_at DESC; "
-            cursor.execute(sql)
+            # sql = "SELECT C.id AS chat_id, U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id` AND M.id = (SELECT MAX(id) FROM message AS M WHERE M.chat_id = C.`id`) ORDER BY M.created_at DESC; "
+            sql = "SELECT C.id AS chat_id, U2.username AS username, M.content AS content FROM `chat` AS C LEFT JOIN `user` AS U1 ON U1.id = C.user_a_id LEFT JOIN `user` AS U2 ON U2.id = C.user_b_id LEFT JOIN `message` AS M ON M.chat_id = C.`id` AND M.id = (SELECT MAX(id) FROM message AS M WHERE M.chat_id = C.`id`) WHERE C.user_a_id = %s OR C.user_b_id = %s ORDER BY M.created_at DESC; "
+            cursor.execute(sql, [user_id, user_id])
 
             result = []
 
@@ -202,6 +224,8 @@ def register():
         return jsonify({"error": "Data 'password' is empty."})
     if isDuplicatedUserEmail(email) == True:
         return jsonify({"error": "Data 'email' is already exist in database."})
+    if isDuplicatedUserName(username) == True:
+        return jsonify({"error": "Data 'username' is already exist in database."})
 
     connection = getConnection()
 

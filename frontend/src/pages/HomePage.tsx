@@ -162,10 +162,19 @@ export default function HomePage({
     };
 
     useEffect(() => {
+        if (currentUserID === undefined) {
+            return;
+        }
+        const requestURL = new URL(BackendURL + "/chatPreview");
+        requestURL.searchParams.append("user_id", currentUserID);
         axios
-            .get(BackendURL + "/chatPreview")
+            .get(requestURL.href)
             .then((result) => {
-                setChatPreview(result.data);
+                if(result.data.length === 0) {
+                    console.error("/chatPreview return undefined");
+                } else {
+                    setChatPreview(result.data);
+                }
             })
             .catch((error) => {
                 console.error(error);
