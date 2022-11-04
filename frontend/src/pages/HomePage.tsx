@@ -1,6 +1,7 @@
 import AvatarIcon from "../components/chat/AvatarIcon";
 import UserTextChat from "../components/chat/UserTextChat";
 import SystemTextChat from "../components/chat/SystemTextChat";
+import SystemRecommendChat from "../components/chat/SystemRecommendChat";
 // import SystemImageChat from "../components/chat/SystemImageChat";
 // import ResponseButton from "../components/chat/ResponseButton";
 import ChatboxInput from "../components/chat/ChatboxInput";
@@ -60,19 +61,84 @@ export default function HomePage({
         );
     };
 
+
     const displayChatMessages = (currentUserID: string) => {
         return chatMessages.map(
-             (message: { user_id: number; content: string; created_at: string }) => (
-                <>
-                    {message.user_id.toString() === currentUserID ? (
+              (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
+                let message_user_id = message.user_id.toString();
+                if (message_user_id === currentUserID) {
+                    return (
                         <UserTextChat content={message.content} timestamp={message.created_at} />
-                    ) : (
-                        <SystemTextChat content={message.content} timestamp={message.created_at} />
-                    )}
-                </>
-            )
+                    )
+                } else {
+                    if(index === chatMessages.length - 1) {
+                        if (message.type === "text") {
+                            return (
+                                <>
+                                    <SystemTextChat content={message.content} timestamp={message.created_at} />
+                                </>
+                            )
+                        } else {
+                            return (
+                                <>
+                                    <SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler}/>
+                                </>
+                            );
+                        }
+                    } else {
+                        return (
+                            <>
+                                <SystemTextChat content={message.content} timestamp={message.created_at} />
+                            </>
+                        )
+                    }
+                }
+            }
         );
     };
+
+    const sendMessage = (user_id: string, chat_id: string, type:string = "text", message: string) => {
+        const UrlWithQuery = new URL(BackendURL + "/message");
+        if (currentUserID !== undefined)
+            UrlWithQuery.searchParams.append("user_id", user_id);
+        if (chatIdState !== undefined)
+            UrlWithQuery.searchParams.append("chat_id", chat_id);
+        UrlWithQuery.searchParams.append("type", type);
+        UrlWithQuery.searchParams.append("content", message);
+
+        axios
+            .post(UrlWithQuery.href)
+            .then((result) => {
+                console.log(result.data);
+
+                const UrlWithQuery = new URL(BackendURL + "/input_queue");
+
+                if (currentUserID !== undefined)
+                    UrlWithQuery.searchParams.append("user_id", chatTargetID);
+                if (chatIdState !== undefined)
+                    UrlWithQuery.searchParams.append("chat_id", chat_id);
+                UrlWithQuery.searchParams.append("message", message);
+
+                axios.post(UrlWithQuery.href).then((result) => {
+                    console.log(result.data);
+                    setChatboxInputValue("");
+                    setForceUpdate((forceUpdate) => forceUpdate + 1);
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    const likeButtonHandler = () => {
+        if (currentUserID !== undefined && chatIdState !== undefined)
+            sendMessage(currentUserID, chatIdState, "text", "Sound Good");
+    }
+
+    const dislikeButtonHandler = () => {
+        if (currentUserID !== undefined && chatIdState !== undefined)
+            sendMessage(currentUserID, chatIdState, "text", "I don't like it");
+    }
 
     const onChatboxInputSubmit = (e: React.FormEvent) => {
         e.preventDefault();

@@ -18,7 +18,7 @@ def getConnection():
 
 
 def isValidType(type: str):
-    if not (type == "text" or type == "image"):
+    if not (type == "text" or type == "image" or type == "recommend"):
         return False
     return True
 
