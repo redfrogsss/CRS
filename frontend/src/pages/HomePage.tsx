@@ -132,12 +132,12 @@ export default function HomePage({
 
     const likeButtonHandler = () => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", "Sound Good");
+            sendMessage(currentUserID, chatIdState, "text", "我喜欢");
     }
 
     const dislikeButtonHandler = () => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", "I don't like it");
+            sendMessage(currentUserID, chatIdState, "text", "我不喜欢");
     }
 
     const onChatboxInputSubmit = (e: React.FormEvent) => {
