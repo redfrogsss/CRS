@@ -2,7 +2,6 @@ import AvatarIcon from "../components/chat/AvatarIcon";
 import UserTextChat from "../components/chat/UserTextChat";
 import SystemTextChat from "../components/chat/SystemTextChat";
 import SystemRecommendChat from "../components/chat/SystemRecommendChat";
-// import SystemImageChat from "../components/chat/SystemImageChat";
 // import ResponseButton from "../components/chat/ResponseButton";
 import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
@@ -14,6 +13,7 @@ import { BackendUrl } from "../context/BackendUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { PageInterface } from "../interfaces/PageInterface";
 import ChatHeader from "../components/chat/ChatHeader";
+import SystemImageChat from "../components/chat/SystemImageChat";
 
 export default function HomePage({
     currentUsername,
@@ -78,19 +78,41 @@ export default function HomePage({
                                     <SystemTextChat content={message.content} timestamp={message.created_at} />
                                 </>
                             )
-                        } else {
+                        } else if (message.type === "recommend") {
                             return (
                                 <>
                                     <SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler}/>
                                 </>
                             );
+                        } else if (message.type === "image") {
+                            console.log("hv image here")
+                            return (
+                                <>
+                                    <SystemImageChat url={message.content} timestamp={message.created_at}/>
+                                </>
+                            )
                         }
+                        
                     } else {
-                        return (
-                            <>
-                                <SystemTextChat content={message.content} timestamp={message.created_at} />
-                            </>
-                        )
+                        if (message.type === "image") {
+                            return (
+                                <>
+                                    <SystemImageChat
+                                        url={message.content}
+                                        timestamp={message.created_at}
+                                    />
+                                </>
+                            );
+                        } else {
+                            return (
+                                <>
+                                    <SystemTextChat
+                                        content={message.content}
+                                        timestamp={message.created_at}
+                                    />
+                                </>
+                            );
+                        }
                     }
                 }
             }
@@ -251,7 +273,6 @@ export default function HomePage({
         axios
             .get(BackendURL + "/chatMessages/" + chatId)
             .then((result) => {
-                // console.log(result.data);
                 setChatMessages(result.data);
             })
             .catch((error) => {
