@@ -24,7 +24,7 @@ const getBackendURL = (): string => {
         //     return "";
         // }
         // return process.env.REACT_APP_API_URL;
-        return "http://192.168.0.30:3001"; // temp hardcode
+        return "http://192.168.0.37:3001"; // temp hardcode
     }
 };
 
