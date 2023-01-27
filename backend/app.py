@@ -270,6 +270,7 @@ def postInputQueue():
     chat_id = request.values.get("chat_id")
     message = request.values.get("message")
     user_id = request.values.get("user_id")
+    language = request.values.get("language")
 
     if not chat_id:
         return jsonify({"error": "Data 'chat_id' is missing."})
@@ -277,14 +278,15 @@ def postInputQueue():
         return jsonify({"error": "Data 'message' is missing."})
     if not user_id:
         return jsonify({"error": "Data 'user_id' is missing."})
+    if not language:
+        language = "ZH"
     
     connection = getConnection()
 
     with connection:
         with connection.cursor() as cursor:
-            sql = "INSERT INTO `input_queue` (chat_id, message, user_id) VALUE (%s, %s, %s)"
-            print(sql)
-            cursor.execute(sql, (chat_id, message, user_id))
+            sql = "INSERT INTO `input_queue` (chat_id, message, user_id, language) VALUE (%s, %s, %s, %s)"
+            cursor.execute(sql, (chat_id, message, user_id, language))
 
             connection.commit()
 

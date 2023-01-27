@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PageInterface } from "../interfaces/PageInterface";
 import ChatHeader from "../components/chat/ChatHeader";
 import SystemImageChat from "../components/chat/SystemImageChat";
+import isChinese from "is-chinese";
 
 export default function HomePage({
     currentUsername,
@@ -140,6 +141,8 @@ export default function HomePage({
                 if (chatIdState !== undefined)
                     UrlWithQuery.searchParams.append("chat_id", chat_id);
                 UrlWithQuery.searchParams.append("message", message);
+                UrlWithQuery.searchParams.append("language", isChinese(message) ? "ZH" : "EN");
+                console.log("language: ", isChinese(message))
 
                 axios.post(UrlWithQuery.href).then((result) => {
                     console.log(result.data);
@@ -186,6 +189,7 @@ export default function HomePage({
                 if (chatIdState !== undefined)
                     UrlWithQuery.searchParams.append("chat_id", chatIdState);
                 UrlWithQuery.searchParams.append("message", chatboxInputValue);
+                UrlWithQuery.searchParams.append("language", isChinese(chatboxInputValue) ? "ZH" : "EN");
 
                 axios.post(UrlWithQuery.href).then((result) => {
                     console.log(result.data);
