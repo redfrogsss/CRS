@@ -336,7 +336,7 @@ export default function HomePage({
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
             {/* Left Panel */}
-            <div className="w-full">
+            <div className="w-full overflow-auto">
                 <div className="grid grid-cols-3 w-full h-[8vh]">
                     <div></div>
                     <div>
