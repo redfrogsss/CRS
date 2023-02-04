@@ -330,6 +330,80 @@ def putInputQueue():
             connection.commit()
 
             return jsonify({"result": "success"})
+        
+
+@app.route("/extractWord", methods=["GET"])
+def getExtractWord():
+    token = request.values.get("token")
+    if not token:
+        return jsonify({"error": "Data 'token' is empty. "})
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * from `extractWord` WHERE `token` = %s ORDER BY `id` DESC LIMIT 1"
+            cursor.execute(sql, (token,))
+            result = cursor.fetchone()
+            if result is None:
+                return jsonify({"result": "None"})
+            return jsonify({"result": result})
+
+@app.route("/extractWord", methods=["POST"])
+def postExtractWord():
+    
+    token = request.args.get("token")
+    word = request.args.get("word")
+    
+    if not token:
+        return jsonify({"error": "Data 'token' is empty. "})
+    if not word:
+        word = ""
+    
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO `extractWord` (word, token) VALUE (%s, %s)"
+            cursor.execute(sql, (word, token,))
+
+            connection.commit()
+            return jsonify({"result": "success"})
+
+
+@app.route("/extractEntity", methods=["GET"])
+def getExtractEntity():
+    token = request.args.get("token")
+    
+    if not token:
+        return jsonify({"error": "Data 'token' is empty. "})
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * from `extractEntity` WHERE `token` = %s ORDER BY `id` DESC LIMIT 1"
+            cursor.execute(sql, (token,))
+            result = cursor.fetchone()
+            if result is None:
+                return jsonify({"result": "None"})
+            return jsonify({"result": result})
+
+@app.route("/extractEntity", methods=["POST"])
+def postExtractEntity():
+    token = request.args.get("token")
+    word = request.args.get("word")
+    
+    if not token:
+        return jsonify({"error": "Data 'token' is empty. "})
+    if not word:
+        word = ""
+    
+    print(f"postExtractEntity: {token} : {word}")
+    
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO `extractEntity` (word, token) VALUE (%s, %s)"
+            cursor.execute(sql, (word, token,))
+
+            connection.commit()
+            return jsonify({"result": "success"})
 
 
 if __name__ == '__main__':

@@ -155,14 +155,14 @@ export default function HomePage({
             });
     }
 
-    const likeButtonHandler = () => {
+    const likeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", "我喜欢");
+            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ? "我喜欢" : "I like it"));
     }
 
-    const dislikeButtonHandler = () => {
+    const dislikeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", "我不喜欢");
+            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ?  "我不喜欢" : "I do not like it"));
     }
 
     const onChatboxInputSubmit = (e: React.FormEvent) => {
