@@ -16,8 +16,7 @@ const getBackendURL = (): string => {
         //     console.error("Environment Variable not found. Did you define environment variable in docker / docker-compose?");
         //     return "";
         // }
-        // return process.env.REACT_APP_PROD_API_URL;
-        return "http://backend:3001"; // temp hardcode
+        return "http://" + window.location.hostname + ":3001";
     } else {
         // if(!process.env.REACT_APP_API_URL) {
         //     console.error("Environment Variable not found. Did you create a .env file in the root folder?");

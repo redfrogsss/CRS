@@ -35,6 +35,7 @@ services:
             MYSQL_DATABASE: crs
             MYSQL_USER: crs
             MYSQL_PASSWORD: Eqkm6EBx9xeP
+            API_URL: "192.168.0.37:3001"
         volumes:
             - frontend_data:/app
 
@@ -50,6 +51,6 @@ services:
         image: phpmyadmin
         restart: unless-stopped
         ports:
-            - 3002:80
+            - 8080:80
         environment:
             - PMA_ARBITRARY=1

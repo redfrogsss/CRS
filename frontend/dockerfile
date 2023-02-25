@@ -6,7 +6,9 @@ COPY . .
 RUN yarn install
 RUN yarn build
 
+# Backend API URL
 ARG API_URL
+
 ENV NODE_ENV production
 ENV REACT_APP_PROD_API_URL $API_URL
 

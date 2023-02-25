@@ -157,12 +157,12 @@ export default function HomePage({
 
     const likeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ? "我喜欢" : "I like it"));
+            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ? "我喜欢" : "I like it."));
     }
 
     const dislikeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ?  "我不喜欢" : "I do not like it"));
+            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ?  "我不喜欢" : "I do not like it."));
     }
 
     const onChatboxInputSubmit = (e: React.FormEvent) => {

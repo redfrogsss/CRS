@@ -5,17 +5,22 @@ import pymysql.cursors
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 app = Flask(__name__)
-cors = CORS(app)
-
+# cors = CORS(app)
+CORS(app, resources={r'/*': {'origins': '*'}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 def getConnection():
     # Connect to the database
-    return pymysql.connect(host='127.0.0.1',
-                           user='crs',
-                           password='Eqkm6EBx9xeP',
-                           database='crs',
-                           cursorclass=pymysql.cursors.DictCursor)
-
+#     return pymysql.connect(host='db',
+#                            user='crs',
+#                            password='Eqkm6EBx9xeP',
+#                            database='crs',
+#                            cursorclass=pymysql.cursors.DictCursor)
+     return pymysql.connect(host='127.0.0.1',
+                            user='crs',
+                            password='Eqkm6EBx9xeP',
+                            database='crs',
+                            cursorclass=pymysql.cursors.DictCursor)
 
 def isValidType(type: str):
     if not (type == "text" or type == "image" or type == "recommend"):

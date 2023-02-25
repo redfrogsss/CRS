@@ -4,11 +4,16 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BackendUrl } from "./context/BackendUrl";
 
 function App() {
     const [currentUsername, setCurrentUsername] = useState<string | undefined>(undefined);
     const [currentUserID, setCurrentUserID] = useState<string | undefined>(undefined);
+
+    // debug
+    useEffect(()=>{
+    }, [])
 
     return (
         <BrowserRouter>
