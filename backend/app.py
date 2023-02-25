@@ -2,9 +2,10 @@ from operator import truediv
 import os   # for os.getenv()
 from datetime import datetime
 import pymysql.cursors
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/build/static/", template_folder="../frontend/build/")
+# app = Flask(__name__)
 # cors = CORS(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -62,30 +63,14 @@ def isDuplicatedUserName(name: str):
             else:
                 return True
 
-# Start of Sample Code
-
-
+# Serve static build file from react
 @app.route("/")
-def hello():
-    return "Hello, World!"
+def index():
+    return render_template("index.html")
 
-
-@app.route("/sample/<string:name>", methods=["GET"])
-def chat_get(name: str):
-    return jsonify({"data": "Hello World", "method": "GET", "name": name})
-
-
-@app.route("/sample/<string:name>", methods=["POST"])
-def chat_post(name: str):
-    return jsonify({"data": "Hello World", "method": "POST", "name": name})
-
-
-@app.route("/sample/submit", methods=["POST"])
-def chat_form_submit():
-    data = request.args.get("data")
-    return jsonify({"data": data, "method": "POST"})
-# End of Sample Code
-
+@app.route("/img/<path:path>")
+def serve_img(path):
+    return send_from_directory("../frontend/build/img/", path)
 
 # fetch message from id
 @app.route("/message/<string:id>", methods=["GET"])
