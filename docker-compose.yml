@@ -3,10 +3,12 @@ version: "3.1"
 volumes:
     db_data:
         driver: local
-    frontend_data:
-        driver: local
-    backend_data: 
-        driver: local
+#     frontend_data:
+#         driver: local
+#     backend_data: 
+#         driver: local
+#     web_data:
+#         driver: local
 
 services:
     db:
@@ -23,29 +25,39 @@ services:
         ports:
             - "3306:3306"
 
-    frontend:
-        build: 
-            context: frontend
-            args:
-                API_URL: backend
-        restart: unless-stopped
-        ports:
-            - 3000:3000
-        environment:
-            MYSQL_DATABASE: crs
-            MYSQL_USER: crs
-            MYSQL_PASSWORD: Eqkm6EBx9xeP
-            API_URL: "192.168.0.37:3001"
-        volumes:
-            - frontend_data:/app
+#     frontend:
+#         build: 
+#             context: frontend
+#             args:
+#                 API_URL: backend
+#         restart: unless-stopped
+#         ports:
+#             - 3000:3000
+#         environment:
+#             MYSQL_DATABASE: crs
+#             MYSQL_USER: crs
+#             MYSQL_PASSWORD: Eqkm6EBx9xeP
+#             API_URL: "192.168.0.37:3001"
+#         volumes:
+#             - frontend_data:/app
+# 
+#     backend:
+#         build: backend
+#         restart: unless-stopped
+#         ports:
+#             - 3001:5000
+#         volumes:
+#             - backend_data:/app
 
-    backend:
-        build: backend
+    web:
+        build: .
         restart: unless-stopped
         ports:
-            - 3001:5000
-        volumes:
-            - backend_data:/app
+            - 3001:3001
+#         volumes:
+#             - web_data:/app
+        environment:
+            DB_HOST: db
 
     phpmyadmin:
         image: phpmyadmin

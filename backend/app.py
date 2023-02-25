@@ -1,5 +1,6 @@
 from operator import truediv
 import os   # for os.getenv()
+from os import environ
 from datetime import datetime
 import pymysql.cursors
 from flask import Flask, jsonify, request, render_template, send_from_directory
@@ -17,7 +18,7 @@ def getConnection():
 #                            password='Eqkm6EBx9xeP',
 #                            database='crs',
 #                            cursorclass=pymysql.cursors.DictCursor)
-     return pymysql.connect(host='127.0.0.1',
+     return pymysql.connect(host='db',
                             user='crs',
                             password='Eqkm6EBx9xeP',
                             database='crs',
@@ -68,12 +69,19 @@ def isDuplicatedUserName(name: str):
 def index():
     return render_template("index.html")
 
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists("../frontend/build/" + path):
+        return send_from_directory('../frontend/build/', path)
+    else:
+        return send_from_directory('../frontend/build/', 'index.html')
+
 @app.route("/img/<path:path>")
 def serve_img(path):
     return send_from_directory("../frontend/build/img/", path)
 
 # fetch message from id
-@app.route("/message/<string:id>", methods=["GET"])
+@app.route("/api/message/<string:id>", methods=["GET"])
 def get_message(id: str):
     if not id:
         return jsonify({"error": "Data 'id' is empty. "})
@@ -89,7 +97,7 @@ def get_message(id: str):
 
 
 # create message
-@app.route("/message/", methods=["POST"])
+@app.route("/api/message/", methods=["POST"])
 def post_message():
     now = datetime.now()
 
@@ -125,7 +133,7 @@ def post_message():
             return jsonify({"result": "success"})
 
 
-@app.route("/chatPreview", methods=["GET"])
+@app.route("/api/chatPreview", methods=["GET"])
 def get_chat_preview():
     user_id = request.args.get("user_id")
     if not user_id:
@@ -145,7 +153,7 @@ def get_chat_preview():
             return jsonify(result)
 
 
-@app.route("/chat/<string:id>", methods=["GET"])
+@app.route("/api/chat/<string:id>", methods=["GET"])
 def get_chat(id: str):
     if not id:
         return jsonify({"error": "Data 'id' is empty. "})
@@ -160,7 +168,7 @@ def get_chat(id: str):
             return jsonify(result)
 
 
-@app.route("/chat/", methods=["POST"])
+@app.route("/api/chat/", methods=["POST"])
 def post_chat():
     user_a_id = request.args.get("user_a_id")
     user_b_id = request.args.get("user_b_id")
@@ -182,7 +190,7 @@ def post_chat():
             return jsonify({"result": "success", "chat_id": chat_id})
 
 
-@app.route("/chatMessages/<string:chat_id>", methods=["GET"])
+@app.route("/api/chatMessages/<string:chat_id>", methods=["GET"])
 def getChatMessages(chat_id: str):
     if not chat_id:
         return jsonify({"error": "Data `chat_id` is empty. "})
@@ -200,7 +208,7 @@ def getChatMessages(chat_id: str):
             return jsonify(result)
 
 
-@app.route("/register", methods=["POST", "GET"])
+@app.route("/api/register", methods=["POST", "GET"])
 def register():
     email = request.values.get("email")
     username = request.values.get("username")
@@ -233,7 +241,7 @@ def register():
             return jsonify({"result": "success", "user_id": selectResult["id"]})
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     email = request.values.get("email")
     password = request.values.get("password")
@@ -255,7 +263,7 @@ def login():
             else:
                 return jsonify({"result": "success", "username": result["username"], "user_id": result["id"]})
 
-@app.route("/input_queue", methods=["POST"])
+@app.route("/api/input_queue", methods=["POST"])
 def postInputQueue():
     chat_id = request.values.get("chat_id")
     message = request.values.get("message")
@@ -283,7 +291,7 @@ def postInputQueue():
             return jsonify({"result": "success"})
 
         
-@app.route("/input_queue", methods=["GET"])
+@app.route("/api/input_queue", methods=["GET"])
 def getInputQueue():
     connection = getConnection()
 
@@ -299,7 +307,7 @@ def getInputQueue():
                 return jsonify({"result": selectResult})
 
 
-@app.route("/input_queue", methods=["PUT"])
+@app.route("/api/input_queue", methods=["PUT"])
 def putInputQueue():
     connection = getConnection()
 
@@ -322,7 +330,7 @@ def putInputQueue():
             return jsonify({"result": "success"})
         
 
-@app.route("/extractWord", methods=["GET"])
+@app.route("/api/extractWord", methods=["GET"])
 def getExtractWord():
     token = request.values.get("token")
     if not token:
@@ -337,7 +345,7 @@ def getExtractWord():
                 return jsonify({"result": "None"})
             return jsonify({"result": result})
 
-@app.route("/extractWord", methods=["POST"])
+@app.route("/api/extractWord", methods=["POST"])
 def postExtractWord():
     
     token = request.args.get("token")
@@ -358,7 +366,7 @@ def postExtractWord():
             return jsonify({"result": "success"})
 
 
-@app.route("/extractEntity", methods=["GET"])
+@app.route("/api/extractEntity", methods=["GET"])
 def getExtractEntity():
     token = request.args.get("token")
     
@@ -374,7 +382,7 @@ def getExtractEntity():
                 return jsonify({"result": "None"})
             return jsonify({"result": result})
 
-@app.route("/extractEntity", methods=["POST"])
+@app.route("/api/extractEntity", methods=["POST"])
 def postExtractEntity():
     token = request.args.get("token")
     word = request.args.get("word")
