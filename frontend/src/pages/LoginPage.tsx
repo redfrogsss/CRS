@@ -7,6 +7,7 @@ import WarningToast from "../components/toasts/Warning";
 import RegisterSuccessToast from "../components/toasts/RegisterSuccess";
 import { BackendUrl } from "../context/BackendUrl";
 import { PageInterface } from "../interfaces/PageInterface";
+import WebTitle from "../components/loginFields/WebTitle";
 
 export default function LoginPage({
     currentUsername,
@@ -96,13 +97,7 @@ export default function LoginPage({
     return (
         <div className="bg-slate-300 w-[100%] h-[100vh] grid grid-cols-2 gap-4 content-center place-content-around">
             <div className="flex h-full w-[80%] justify-center justify-self-center text-center align-middle">
-                <div className="m-auto">
-                    <h1 className="text-6xl font-bold">CRS Web</h1>
-                    <h2 className="text-lg">
-                        The Best Conversational Recommendation System in the
-                        world.
-                    </h2>
-                </div>
+                <WebTitle />
             </div>
             <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-lg sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
                 <form className="space-y-6" onSubmit={onSubmitHandler}>
