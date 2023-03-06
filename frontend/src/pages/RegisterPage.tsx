@@ -39,27 +39,6 @@ export default function RegisterPage({
     const onSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // FIXME: idk y I cannot post data to flash
-
-        // axios
-        //     .post(backendURL, {
-        //         email: email,
-        //         username: username,
-        //         password: password,
-        //     })
-        //     .then((response) => {
-        //         console.log(response.data);
-
-        //         if (response.data.error != undefined) {
-        //             console.error(response.data.error);
-        //             return;
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
-
-        // Temp use query method to send data
         const UrlWithQuery = new URL(backendURL);
         UrlWithQuery.searchParams.append("email", email);
         UrlWithQuery.searchParams.append("username", username);
@@ -95,7 +74,7 @@ export default function RegisterPage({
                     </h2>
                 </div>
             </div>
-            <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
+            <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-lg sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
                 <form
                     className="space-y-6"
                     onSubmit={(e) => {

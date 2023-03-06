@@ -104,7 +104,7 @@ export default function LoginPage({
                     </h2>
                 </div>
             </div>
-            <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
+            <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-lg sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 justify-center justify-self-center">
                 <form className="space-y-6" onSubmit={onSubmitHandler}>
                     <h5 className="text-xl font-medium text-gray-900 dark:text-white">
                         Sign in
