@@ -8,8 +8,8 @@ interface ChatboxInputInterface {
 
 export default function ChatboxInput ({ onSubmitHandler, onChangeHandler, value } : ChatboxInputInterface) {
     return (
-        <div className="w-[74%] bg-white bottom-0 right-0 justify-end flex fixed">
-            <div className="h-full w-full pt-2 pb-4 px-2">
+        <div className="w-[75%] bg-white bottom-0 right-0 justify-end flex fixed border-l-2 border-blue-200">
+            <div className="h-full w-full pt-2 pb-4 px-8">
                 <form
                     onSubmit={onSubmitHandler}
                 >

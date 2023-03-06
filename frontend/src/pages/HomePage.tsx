@@ -369,7 +369,7 @@ export default function HomePage({
                 </div>
                 <hr className="border-2 border-blue-200" />
                 {/* conversation part in right panel */}
-                <div className="h-[85vh] overflow-scroll relative">
+                <div className="h-[calc(100vh-56px)] overflow-scroll relative pb-12">
                     {/* <UserTextChat />
                     <SystemTextChat />
                     <SystemImageChat />
@@ -379,12 +379,12 @@ export default function HomePage({
 
                     {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())}
 
+                </div>
                     <ChatboxInput
                         onSubmitHandler={onChatboxInputSubmit}
                         onChangeHandler={onChatboxInputChange}
                         value={chatboxInputValue}
                     />
-                </div>
                 {/* end of conversation part in right panel */}
             </div>
         </div>
