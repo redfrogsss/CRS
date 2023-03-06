@@ -337,7 +337,7 @@ export default function HomePage({
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
             {/* Left Panel */}
             <div className="w-full">
-                <div className="grid grid-cols-3 w-full min-h-[8vh]">
+                <div className="grid grid-cols-3 w-full min-h-[56px]">
                     <div></div>
                     <div>
                         <h2 className="flex items-center justify-center text-2xl w-full h-full font-bold">
@@ -354,13 +354,13 @@ export default function HomePage({
                     </div>
                 </div>
                 <hr className="border-2 border-blue-200" />
-                <div className="overflow-scroll h-[93vh]">
+                <div className="overflow-scroll h-[95vh]">
                     {displayChatPreview()}
                 </div>
             </div>
             {/* Right Panel */}
             <div className="w-full col-span-3">
-                <div className="grid grid-cols-3 w-full min-h-[8vh]">
+                <div className="grid grid-cols-3 w-full min-h-[56px]">
                     <div>
                         <ChatHeader username={chatHeader} />
                     </div>
