@@ -336,8 +336,8 @@ export default function HomePage({
     return (
         <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
             {/* Left Panel */}
-            <div className="w-full overflow-auto">
-                <div className="grid grid-cols-3 w-full h-[8vh]">
+            <div className="w-full">
+                <div className="grid grid-cols-3 w-full min-h-[8vh]">
                     <div></div>
                     <div>
                         <h2 className="flex items-center justify-center text-2xl w-full h-full font-bold">
@@ -354,18 +354,14 @@ export default function HomePage({
                     </div>
                 </div>
                 <hr className="border-2 border-blue-200" />
-                {/* <ChatPreview /> */}
-                {displayChatPreview()}
-                {/* <hr /> */}
+                <div className="overflow-scroll h-[93vh]">
+                    {displayChatPreview()}
+                </div>
             </div>
             {/* Right Panel */}
             <div className="w-full col-span-3">
-                <div className="grid grid-cols-3 w-full h-[8vh]">
+                <div className="grid grid-cols-3 w-full min-h-[8vh]">
                     <div>
-                        {/* <h2 className="flex items-center justify-start text-lg w-full h-full mx-4">
-                            <AvatarIcon />
-                            CRS Bill Gates
-                        </h2> */}
                         <ChatHeader username={chatHeader} />
                     </div>
                     <div></div>
