@@ -4,21 +4,31 @@ from os import environ
 from datetime import datetime
 import pymysql.cursors
 from flask import Flask, jsonify, request, render_template, send_from_directory
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 app = Flask(__name__, static_folder="../frontend/build/static/", template_folder="../frontend/build/")
 # app = Flask(__name__)
 # cors = CORS(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+@app.after_request
+def add_cors_headers(response):
+    white = ['http://localhost:3000','http://localhost:3001', 'http://192.168.0.37:3000', 'http://192.168.0.37:3001']
+    r = request.referrer[:-1]
+    if r in white:
+        response.headers.add('Access-Control-Allow-Origin', r)
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
+        response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
+        response.headers.add('Access-Control-Allow-Headers', 'Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    return response
+
 def getConnection():
     # Connect to the database
-#     return pymysql.connect(host='db',
-#                            user='crs',
-#                            password='Eqkm6EBx9xeP',
-#                            database='crs',
-#                            cursorclass=pymysql.cursors.DictCursor)
-     return pymysql.connect(host='db',
+    #  return pymysql.connect(host='db',
+     return pymysql.connect(host='localhost',
                             user='crs',
                             password='Eqkm6EBx9xeP',
                             database='crs',
@@ -239,7 +249,6 @@ def register():
             selectResult = cursor.fetchone()
 
             return jsonify({"result": "success", "user_id": selectResult["id"]})
-
 
 @app.route("/api/login", methods=["POST"])
 def login():
