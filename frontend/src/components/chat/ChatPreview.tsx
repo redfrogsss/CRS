@@ -16,7 +16,7 @@ export default function ChatPreview({
     const href = "/home/" + chat_id;
 
     return (
-        <div className="mt-4 mb-2 mx-2">
+        <div className="mt-4 mb-2 mx-4">
             <a
                 href={href} // temp
                 className="grid grid-cols-4"
@@ -27,7 +27,7 @@ export default function ChatPreview({
             >
                 <div className="inline-block">
                     <img
-                        className="p-1 object-cover rounded-full ring-2 ring-gray-300 dark:ring-gray-500 h-16 w-16 mx-4"
+                        className="p-1 object-cover rounded-full ring-2 ring-gray-300 h-16 w-16 mx-4"
                         src="/img/user.png"
                         alt="Bordered avatar"
                     />
