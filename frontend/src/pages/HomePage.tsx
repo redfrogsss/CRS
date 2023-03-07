@@ -75,7 +75,7 @@ export default function HomePage({
                 const isUserChat = (message_user_id === currentUserID);
 
                 if (isUserChat) {
-                    return ( <UserTextChat content={message.content} timestamp={message.created_at} />)
+                    return (<UserTextChat content={message.content} timestamp={message.created_at} />)
                 } else {
                     // system chat
                     if (isLastItem) {
@@ -98,40 +98,141 @@ export default function HomePage({
         );
     };
 
-    const sendMessage = (user_id: string, chat_id: string, type: string = "text", message: string) => {
-        const UrlWithQuery = new URL(BackendURL + "/message");
-        if (currentUserID !== undefined)
-            UrlWithQuery.searchParams.append("user_id", user_id);
-        if (chatIdState !== undefined)
-            UrlWithQuery.searchParams.append("chat_id", chat_id);
-        UrlWithQuery.searchParams.append("type", type);
-        UrlWithQuery.searchParams.append("content", message);
+    // const createNewConversation = () => {
+    //     const registerURL = new URL(BackendURL + "/register");
+    //     const username =
+    //         "SystemUser" + Math.floor(Math.random() * 99999).toString();
+    //     registerURL.searchParams.append("email", username + "@crs.com");
+    //     registerURL.searchParams.append("username", username);
+    //     registerURL.searchParams.append("password", "123456");
 
-        axios
-            .post(UrlWithQuery.href)
-            .then((result) => {
-                console.log(result.data);
+    //     axios
+    //         .post(registerURL.href)
+    //         .then((response) => {
+    //             if (response.data.error !== undefined) {
+    //                 console.error(response.data.error);
+    //                 return;
+    //             }
+    //             if (response.data.result === "success") {
+    //                 let user_id = response.data.user_id;
 
-                const UrlWithQuery = new URL(BackendURL + "/input_queue");
+    //                 const createChatURL = new URL(BackendURL + "/chat");
+    //                 if (currentUserID !== undefined)
+    //                     createChatURL.searchParams.append(
+    //                         "user_a_id",
+    //                         currentUserID
+    //                     );
+    //                 createChatURL.searchParams.append("user_b_id", user_id);
 
-                if (currentUserID !== undefined)
-                    UrlWithQuery.searchParams.append("user_id", chatTargetID);
-                if (chatIdState !== undefined)
-                    UrlWithQuery.searchParams.append("chat_id", chat_id);
-                UrlWithQuery.searchParams.append("message", message);
-                UrlWithQuery.searchParams.append("language", isChinese(message) ? "ZH" : "EN");
-                console.log("language: ", isChinese(message))
+    //                 axios
+    //                     .post(createChatURL.href)
+    //                     .then((result) => {
+    //                         if (result.data.result === "success") {
+    //                             let chat_id = result.data.chat_id;
+    //                             setForceUpdate(
+    //                                 (forceUpdate) => forceUpdate + 1
+    //                             );
+    //                             navigate("/home/" + chat_id);
+    //                         }
+    //                     })
+    //                     .catch((error) => {
+    //                         console.error(error);
+    //                     });
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }
 
-                axios.post(UrlWithQuery.href).then((result) => {
-                    console.log(result.data);
-                    setChatboxInputValue("");
-                    setForceUpdate((forceUpdate) => forceUpdate + 1);
-                })
-            })
-            .catch((error) => {
+    const createNewConversation = async () => {
+
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Register new user for recommender
+
+                const registerURL = new URL(BackendURL + "/register");
+                const username =
+                    "SystemUser" + Math.floor(Math.random() * 99999).toString();
+                registerURL.searchParams.append("email", username + "@crs.com");
+                registerURL.searchParams.append("username", username);
+                registerURL.searchParams.append("password", "123456");
+
+                let response = await axios.post(registerURL.href);
+
+                if (response.data.error !== undefined) {
+                    throw new Error(response.data.error);
+                }
+                if (response.data.result !== "success") {
+                    throw new Error(response.data);
+                }
+
+                // Create new conversation
+
+                let user_id = response.data.user_id;
+
+                const createChatURL = new URL(BackendURL + "/chat");
+                if (currentUserID !== undefined) {
+                    createChatURL.searchParams.append("user_a_id", currentUserID);
+                }
+                createChatURL.searchParams.append("user_b_id", user_id);
+
+                let result = await axios.post(createChatURL.href);
+
+                if (result.data.result !== "success") {
+                    throw new Error(result.data);
+                }
+
+                // Success action
+                let chat_id = result.data.chat_id;
+                resolve(chat_id);
+                
+            } catch (error) {
+                // Error handling
                 console.error(error);
-            });
+                reject(error);
+            }
+        });
+
     }
+
+
+    const sendMessage = async (user_id: string, chat_id: string, type: string = "text", message: string) => {
+        try {
+
+            // create new message via backend /message
+            const query = new URL(BackendURL + "/message");
+            if (currentUserID !== undefined)
+                query.searchParams.append("user_id", user_id);
+            if (chatIdState !== undefined)
+                query.searchParams.append("chat_id", chat_id);
+            query.searchParams.append("type", type);
+            query.searchParams.append("content", message);
+
+            let result = await axios.post(query.href);
+            console.log(result.data);
+
+            // create record to /input_queue for recommender to handle
+            const UrlWithQuery = new URL(BackendURL + "/input_queue");
+
+            if (currentUserID !== undefined)
+                UrlWithQuery.searchParams.append("user_id", chatTargetID);
+            if (chatIdState !== undefined)
+                UrlWithQuery.searchParams.append("chat_id", chat_id);
+            UrlWithQuery.searchParams.append("message", message);
+            UrlWithQuery.searchParams.append("language", isChinese(message) ? "ZH" : "EN");
+
+            let result2 = axios.post(UrlWithQuery.href);
+            console.log(result.data);
+
+            setChatboxInputValue("");
+            setForceUpdate((forceUpdate) => forceUpdate + 1);
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 
     const likeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
@@ -185,50 +286,15 @@ export default function HomePage({
     };
 
     const onNewConversationButtonClick = (e: React.MouseEvent) => {
-        const registerURL = new URL(BackendURL + "/register");
-        const username =
-            "SystemUser" + Math.floor(Math.random() * 99999).toString();
-        registerURL.searchParams.append("email", username + "@crs.com");
-        registerURL.searchParams.append("username", username);
-        registerURL.searchParams.append("password", "123456");
 
-        axios
-            .post(registerURL.href)
-            .then((response) => {
-                if (response.data.error !== undefined) {
-                    console.error(response.data.error);
-                    return;
-                }
-                if (response.data.result === "success") {
-                    let user_id = response.data.user_id;
-
-                    const createChatURL = new URL(BackendURL + "/chat");
-                    if (currentUserID !== undefined)
-                        createChatURL.searchParams.append(
-                            "user_a_id",
-                            currentUserID
-                        );
-                    createChatURL.searchParams.append("user_b_id", user_id);
-
-                    axios
-                        .post(createChatURL.href)
-                        .then((result) => {
-                            if (result.data.result === "success") {
-                                let chat_id = result.data.chat_id;
-                                setForceUpdate(
-                                    (forceUpdate) => forceUpdate + 1
-                                );
-                                navigate("/home/" + chat_id);
-                            }
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        createNewConversation().then((chat_id) => {
+            setForceUpdate(
+                (forceUpdate) => forceUpdate + 1
+            );
+            navigate("/home/" + chat_id);
+        }).catch((error) => {
+            console.error(error);
+        });
     };
 
     useEffect(() => {
