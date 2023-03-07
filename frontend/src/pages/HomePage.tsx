@@ -2,7 +2,6 @@ import AvatarIcon from "../components/chat/AvatarIcon";
 import UserTextChat from "../components/chat/UserTextChat";
 import SystemTextChat from "../components/chat/SystemTextChat";
 import SystemRecommendChat from "../components/chat/SystemRecommendChat";
-// import ResponseButton from "../components/chat/ResponseButton";
 import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
@@ -349,13 +348,6 @@ export default function HomePage({
                 <hr className="border-2 border-blue-200" />
                 {/* conversation part in right panel */}
                 <div className="h-[calc(100vh-56px)] overflow-scroll relative pb-12">
-                    {/* <UserTextChat />
-                    <SystemTextChat />
-                    <SystemImageChat />
-                    <UserTextChat />
-                    <SystemTextChat />
-                    <ResponseButton /> */}
-
                     {/* {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())} */}
                     <ChatConversation chatMessages={chatMessages} currentUserID={currentUserID === undefined ? "1" : currentUserID.toString()} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} />
                 </div>

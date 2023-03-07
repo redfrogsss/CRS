@@ -48,10 +48,23 @@ export default function ChatConversation({ chatMessages, currentUserID, likeButt
     };
 
     const displayWelcomeScreen = () => {
+
+        const exampleInputs = ["I am looking for scary and horror movie.", "I would like to watch a fantasy movie.", "有没有推荐的爱情电影?", "我想看喜剧电影"]
+
+        const showExampleButton = () => {
+            return exampleInputs.map((example)=>{
+                return (
+                    <button type="button" className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{example}</button>
+                )
+            })
+        }
+
         return (
             <div className="h-fit w-fit absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] prose lg:prose-xl text-center">
                 <h1>CRS Web</h1>
                 <p>A web-based conversational recommender system.</p>
+                <small>Try this: </small><br />
+                {showExampleButton()}
             </div>
         );
     }
