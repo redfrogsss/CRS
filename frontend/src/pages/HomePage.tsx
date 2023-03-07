@@ -15,6 +15,7 @@ import { PageInterface } from "../interfaces/PageInterface";
 import ChatHeader from "../components/chat/ChatHeader";
 import SystemImageChat from "../components/chat/SystemImageChat";
 import isChinese from "is-chinese";
+import ChatConversation from "../components/chat/ChatConversation";
 
 export default function HomePage({
     currentUsername,
@@ -65,54 +66,32 @@ export default function HomePage({
 
     const displayChatMessages = (currentUserID: string) => {
         return chatMessages.map(
-              (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
+            (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
+
                 let message_user_id = message.user_id.toString();
-                if (message_user_id === currentUserID) {
-                    return (
-                        <UserTextChat content={message.content} timestamp={message.created_at} />
-                    )
+                const isLastItem = (index === chatMessages.length - 1);
+                const isImageType = (message.type === "image");
+                const isTextType = (message.type === "text");
+                const isRecommendType = (message.type === "recommend");
+                const isUserChat = (message_user_id === currentUserID);
+
+                if (isUserChat) {
+                    return ( <UserTextChat content={message.content} timestamp={message.created_at} />)
                 } else {
-                    if(index === chatMessages.length - 1) {
-                        if (message.type === "text") {
-                            return (
-                                <>
-                                    <SystemTextChat content={message.content} timestamp={message.created_at} />
-                                </>
-                            )
-                        } else if (message.type === "recommend") {
-                            return (
-                                <>
-                                    <SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler}/>
-                                </>
-                            );
-                        } else if (message.type === "image") {
-                            console.log("hv image here")
-                            return (
-                                <>
-                                    <SystemImageChat url={message.content} timestamp={message.created_at}/>
-                                </>
-                            )
+                    // system chat
+                    if (isLastItem) {
+                        if (isTextType) {
+                            return (<SystemTextChat content={message.content} timestamp={message.created_at} />)
+                        } else if (isRecommendType) {
+                            return (<SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} />);
+                        } else if (isImageType) {
+                            return (<SystemImageChat url={message.content} timestamp={message.created_at} />)
                         }
-                        
                     } else {
-                        if (message.type === "image") {
-                            return (
-                                <>
-                                    <SystemImageChat
-                                        url={message.content}
-                                        timestamp={message.created_at}
-                                    />
-                                </>
-                            );
+                        if (isImageType) {
+                            return (<SystemImageChat url={message.content} timestamp={message.created_at} />);
                         } else {
-                            return (
-                                <>
-                                    <SystemTextChat
-                                        content={message.content}
-                                        timestamp={message.created_at}
-                                    />
-                                </>
-                            );
+                            return (<SystemTextChat content={message.content} timestamp={message.created_at} />);
                         }
                     }
                 }
@@ -120,7 +99,7 @@ export default function HomePage({
         );
     };
 
-    const sendMessage = (user_id: string, chat_id: string, type:string = "text", message: string) => {
+    const sendMessage = (user_id: string, chat_id: string, type: string = "text", message: string) => {
         const UrlWithQuery = new URL(BackendURL + "/message");
         if (currentUserID !== undefined)
             UrlWithQuery.searchParams.append("user_id", user_id);
@@ -162,7 +141,7 @@ export default function HomePage({
 
     const dislikeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ?  "我不喜欢" : "I do not like it."));
+            sendMessage(currentUserID, chatIdState, "text", (language == "zh" ? "我不喜欢" : "I do not like it."));
     }
 
     const onChatboxInputSubmit = (e: React.FormEvent) => {
@@ -262,7 +241,7 @@ export default function HomePage({
         axios
             .get(requestURL.href)
             .then((result) => {
-                if(result.data.length === 0) {
+                if (result.data.length === 0) {
                     console.error("/chatPreview return undefined");
                 } else {
                     setChatPreview(result.data);
@@ -296,11 +275,11 @@ export default function HomePage({
                     let user_a_id = result.data.user_a_id;
                     let user_b_id = result.data.user_b_id;
 
-                    if(user_a_id === currentUserID) {
+                    if (user_a_id === currentUserID) {
                         setChatHeader(user_b_name);
                         setChatTargetID(user_b_id);
                     }
-                    if(user_b_id === currentUserID) {
+                    if (user_b_id === currentUserID) {
                         setChatHeader(user_a_name);
                     }
                 }
@@ -323,7 +302,7 @@ export default function HomePage({
         }
 
         const messageUpdate = () => {
-            delay().then(()=>{
+            delay().then(() => {
                 setForceUpdate((forceUpdate) => forceUpdate + 1);
                 messageUpdate();
             })
@@ -377,14 +356,14 @@ export default function HomePage({
                     <SystemTextChat />
                     <ResponseButton /> */}
 
-                    {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())}
-
+                    {/* {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())} */}
+                    <ChatConversation chatMessages={chatMessages} currentUserID={currentUserID === undefined ? "1" : currentUserID.toString()} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} />
                 </div>
-                    <ChatboxInput
-                        onSubmitHandler={onChatboxInputSubmit}
-                        onChangeHandler={onChatboxInputChange}
-                        value={chatboxInputValue}
-                    />
+                <ChatboxInput
+                    onSubmitHandler={onChatboxInputSubmit}
+                    onChangeHandler={onChatboxInputChange}
+                    value={chatboxInputValue}
+                />
                 {/* end of conversation part in right panel */}
             </div>
         </div>
