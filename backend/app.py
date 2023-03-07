@@ -13,10 +13,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.after_request
 def add_cors_headers(response):
-    white = ['http://localhost:3000','http://localhost:3001', 'http://192.168.0.37:3000', 'http://192.168.0.37:3001']
+    white = ['http://192.168.0.37:3000']
     r = request.referrer[:-1]
     if r in white:
-        response.headers.add('Access-Control-Allow-Origin', r)
+        # response.headers.add('Access-Control-Allow-Origin', r)
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
