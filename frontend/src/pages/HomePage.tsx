@@ -1,7 +1,3 @@
-import AvatarIcon from "../components/chat/AvatarIcon";
-import UserTextChat from "../components/chat/UserTextChat";
-import SystemTextChat from "../components/chat/SystemTextChat";
-import SystemRecommendChat from "../components/chat/SystemRecommendChat";
 import ChatboxInput from "../components/chat/ChatboxInput";
 import ChatPreview from "../components/chat/ChatPreview";
 import NewConversationButton from "../components/navbar/NewConversationButton";
@@ -12,7 +8,6 @@ import { BackendUrl } from "../context/BackendUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { PageInterface } from "../interfaces/PageInterface";
 import ChatHeader from "../components/chat/ChatHeader";
-import SystemImageChat from "../components/chat/SystemImageChat";
 import isChinese from "is-chinese";
 import ChatConversation from "../components/chat/ChatConversation";
 
@@ -38,7 +33,6 @@ export default function HomePage({
     const { chatId } = useParams();
     const [chatIdState, setChatIdState] = useState(chatId);
 
-    const [messageUpdate, setMessageUpdate] = useState(true);
     useEffect(() => {
         setChatIdState(chatId);
     }, [chatId]);
@@ -59,42 +53,6 @@ export default function HomePage({
                     <hr />
                 </>
             )
-        );
-    };
-
-
-    const displayChatMessages = (currentUserID: string) => {
-        return chatMessages.map(
-            (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
-
-                let message_user_id = message.user_id.toString();
-                const isLastItem = (index === chatMessages.length - 1);
-                const isImageType = (message.type === "image");
-                const isTextType = (message.type === "text");
-                const isRecommendType = (message.type === "recommend");
-                const isUserChat = (message_user_id === currentUserID);
-
-                if (isUserChat) {
-                    return (<UserTextChat content={message.content} timestamp={message.created_at} />)
-                } else {
-                    // system chat
-                    if (isLastItem) {
-                        if (isTextType) {
-                            return (<SystemTextChat content={message.content} timestamp={message.created_at} />)
-                        } else if (isRecommendType) {
-                            return (<SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} />);
-                        } else if (isImageType) {
-                            return (<SystemImageChat url={message.content} timestamp={message.created_at} />)
-                        }
-                    } else {
-                        if (isImageType) {
-                            return (<SystemImageChat url={message.content} timestamp={message.created_at} />);
-                        } else {
-                            return (<SystemTextChat content={message.content} timestamp={message.created_at} />);
-                        }
-                    }
-                }
-            }
         );
     };
 
@@ -152,8 +110,9 @@ export default function HomePage({
 
 
     const sendMessage = async (user_id: string, target_id: string, chat_id: string, type: string = "text", message: string) => {
-        try {
+        // target_id means the second user id of the conversation
 
+        try {
             // create new message via backend /message
             const query = new URL(BackendURL + "/message");
             if (user_id !== undefined)
@@ -173,7 +132,7 @@ export default function HomePage({
             // create record to /input_queue for recommender to handle
             const UrlWithQuery = new URL(BackendURL + "/input_queue");
 
-            if (currentUserID !== "")
+            if (target_id !== "")
                 UrlWithQuery.searchParams.append("user_id", target_id);
             if (chat_id !== "")
                 UrlWithQuery.searchParams.append("chat_id", chat_id);
@@ -196,12 +155,12 @@ export default function HomePage({
 
     const likeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatTargetID, chatIdState, "text", (language == "zh" ? "我喜欢" : "I like it."));
+            sendMessage(currentUserID, chatTargetID, chatIdState, "text", (language === "zh" ? "我喜欢" : "I like it."));
     }
 
     const dislikeButtonHandler = (language = "en") => {
         if (currentUserID !== undefined && chatIdState !== undefined)
-            sendMessage(currentUserID, chatTargetID, chatIdState, "text", (language == "zh" ? "我不喜欢" : "I do not like it."));
+            sendMessage(currentUserID, chatTargetID, chatIdState, "text", (language === "zh" ? "我不喜欢" : "I do not like it."));
     }
 
     const onChatboxInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -349,8 +308,13 @@ export default function HomePage({
                 <hr className="border-2 border-blue-200" />
                 {/* conversation part in right panel */}
                 <div className="h-[calc(100vh-56px)] overflow-scroll relative pb-12">
-                    {/* {displayChatMessages(currentUserID === undefined ? "1" : currentUserID.toString())} */}
-                    <ChatConversation chatMessages={chatMessages} currentUserID={currentUserID === undefined ? "1" : currentUserID.toString()} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} />
+                    <ChatConversation
+                        chatMessages={chatMessages}
+                        currentUserID={currentUserID === undefined ? "1" : currentUserID.toString()}
+                        likeButtonHandler={likeButtonHandler}
+                        dislikeButtonHandler={dislikeButtonHandler}
+                        sendSampleTextHandler={(text: string) => { sendMessage(currentUserID ?? "", chatTargetID, chatIdState ?? "", "text", text); }}
+                    />
                 </div>
                 <ChatboxInput
                     onSubmitHandler={onChatboxInputSubmit}
