@@ -59,7 +59,7 @@ export default function HomePage({
 
     const createNewConversation = async () => {
 
-        return new Promise(async (resolve : (chat_id: string) => void, reject) => {
+        return new Promise(async (resolve: (chat_id: string) => void, reject) => {
             try {
                 // Register new user for recommender
 
@@ -98,7 +98,7 @@ export default function HomePage({
                 // Success action
                 let chat_id = result.data.chat_id;
                 resolve(chat_id);
-                
+
             } catch (error) {
                 // Error handling
                 console.error(error);
@@ -122,7 +122,7 @@ export default function HomePage({
             }
             query.searchParams.append("chat_id", chat_id);
             console.log("chat_id", chat_id);
-            
+
             query.searchParams.append("type", type);
             query.searchParams.append("content", message);
 
@@ -191,8 +191,8 @@ export default function HomePage({
         });
     };
 
-    // get chat preview
-    useEffect(() => {
+    const getChatPreview = () => {
+
         if (currentUserID === undefined) {
             return;
         }
@@ -210,10 +210,9 @@ export default function HomePage({
             .catch((error) => {
                 console.error(error);
             });
-    }, [BackendURL, forceUpdate]);
+    }
 
-    // get chat messages from chatid
-    useEffect(() => {
+    const getChatMessage = () => {
         axios
             .get(BackendURL + "/chatMessages/" + chatId)
             .then((result) => {
@@ -222,10 +221,9 @@ export default function HomePage({
             .catch((error) => {
                 console.error(error);
             });
-    }, [chatId, BackendURL, forceUpdate]);
+    }
 
-    // get chat information from chat id
-    useEffect(() => {
+    const getChatInfo = () => {
         axios
             .get(BackendURL + "/chat/" + chatId)
             .then((result) => {
@@ -249,12 +247,32 @@ export default function HomePage({
             .catch((error) => {
                 console.error();
             });
-    }, [chatId]);
+    }
 
-    useEffect(() => {
+    const loginProtect = () => {
         if (currentUsername === undefined) {
             navigate("/login");
         }
+    }
+
+    // get chat preview
+    useEffect(() => {
+        getChatPreview();
+    }, [BackendURL, forceUpdate]);
+
+    // get chat messages from chatid
+    useEffect(() => {
+        getChatMessage();
+    }, [chatId, BackendURL, forceUpdate]);
+
+    // get chat information from chat id
+    useEffect(() => {
+        getChatInfo();
+    }, [chatId]);
+
+    // loginProtect
+    useEffect(() => {
+        loginProtect();
     }, []);
 
     // force update for chat message update
