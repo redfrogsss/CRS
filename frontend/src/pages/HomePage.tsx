@@ -191,6 +191,7 @@ export default function HomePage({
         });
     };
 
+    // get chat preview
     useEffect(() => {
         if (currentUserID === undefined) {
             return;
@@ -211,6 +212,7 @@ export default function HomePage({
             });
     }, [BackendURL, forceUpdate]);
 
+    // get chat messages from chatid
     useEffect(() => {
         axios
             .get(BackendURL + "/chatMessages/" + chatId)
@@ -222,6 +224,7 @@ export default function HomePage({
             });
     }, [chatId, BackendURL, forceUpdate]);
 
+    // get chat information from chat id
     useEffect(() => {
         axios
             .get(BackendURL + "/chat/" + chatId)
@@ -246,13 +249,13 @@ export default function HomePage({
             .catch((error) => {
                 console.error();
             });
-    });
+    }, [chatId]);
 
     useEffect(() => {
         if (currentUsername === undefined) {
             navigate("/login");
         }
-    });
+    }, []);
 
     // force update for chat message update
     useEffect(() => {
