@@ -1,25 +1,50 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChatIdContext } from "../../context/ChatIdContext";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { getTargetID } from "../../utils/getTargetID";
+import { sendMessage } from "../../utils/sendMessage";
 
-interface ChatboxInputInterface {
-    onSubmitHandler?: (e: React.FormEvent<HTMLFormElement>) => void,
-    onChangeHandler?: (e: React.FormEvent<HTMLInputElement>) => void,
-    value?: string,
-}
+export default function ChatboxInput () {
 
-export default function ChatboxInput ({ onSubmitHandler, onChangeHandler, value } : ChatboxInputInterface) {
+    const navigate = useNavigate();
+
+    const chatId = useContext(ChatIdContext);
+    const currentUser = useContext(CurrentUserContext);
+
+    const [chatboxInputValue, setChatboxInputValue] = useState<string>("");
+
+    const onChatboxInputSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (currentUser !== undefined && currentUser.id.currentUserID !== undefined && chatId !== undefined) {
+            let chat_id = chatId ?? "";
+            let target_id = await getTargetID(chatId, currentUser.id.currentUserID);
+
+            chat_id = await sendMessage(currentUser.id.currentUserID, target_id, chat_id, "text", chatboxInputValue);
+
+            setChatboxInputValue("");
+            navigate("/home/" + chat_id);
+        }     
+    };
+
+    const onChatboxInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setChatboxInputValue(e.currentTarget.value);
+    };
+    
     return (
         <div className="w-[75%] bg-white bottom-0 right-0 justify-end flex fixed border-l-2 border-blue-200">
             <div className="h-full w-full pt-2 pb-4 px-8">
                 <form
-                    onSubmit={onSubmitHandler}
+                    onSubmit={onChatboxInputSubmit}
                 >
                     <input
                         type="text"
                         id="base-input"
                         placeholder="say something..."
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[calc(100%-114px-4px-8px)] px-2.5 py-[9px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 inline-block align-top"
-                        onChange={onChangeHandler}
-                        value={value}
+                        onChange={onChatboxInputChange}
+                        value={chatboxInputValue}
                     />
                     <button
                         type="submit"

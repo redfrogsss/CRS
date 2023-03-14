@@ -1,4 +1,4 @@
 export interface CurrentUserInterface {
-    id: [string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>];
-    name: [string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>];
+    id: {currentUserID: string | undefined, setCurrentUserID: React.Dispatch<React.SetStateAction<string | undefined>>};
+    name: {currentUsername: string | undefined, setCurrentUsername: React.Dispatch<React.SetStateAction<string | undefined>>};
 }
