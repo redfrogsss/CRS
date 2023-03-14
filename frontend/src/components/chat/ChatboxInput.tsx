@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatIdContext } from "../../context/ChatIdContext";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ForceUpdateContext } from "../../context/ForceUpdate";
 import { getTargetID } from "../../utils/getTargetID";
 import { sendMessage } from "../../utils/sendMessage";
 
@@ -11,6 +12,7 @@ export default function ChatboxInput () {
 
     const chatId = useContext(ChatIdContext);
     const currentUser = useContext(CurrentUserContext);
+    const update = useContext(ForceUpdateContext);
 
     const [chatboxInputValue, setChatboxInputValue] = useState<string>("");
 
@@ -24,6 +26,7 @@ export default function ChatboxInput () {
             chat_id = await sendMessage(currentUser.id.currentUserID, target_id, chat_id, "text", chatboxInputValue);
 
             setChatboxInputValue("");
+            update.setForceUpdate(forceUpdate => forceUpdate + 1);
             navigate("/home/" + chat_id);
         }     
     };

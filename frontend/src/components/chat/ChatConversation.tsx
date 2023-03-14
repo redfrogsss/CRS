@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BackendUrl } from "../../context/BackendUrl";
 import { ChatIdContext } from "../../context/ChatIdContext";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ForceUpdateContext } from "../../context/ForceUpdate";
 import { getTargetID } from "../../utils/getTargetID";
 import { sendMessage } from "../../utils/sendMessage";
 import SystemImageChat from "./SystemImageChat";
@@ -20,6 +21,7 @@ export default function ChatConversation() {
     const BackendURL = useContext(BackendUrl);
     const chatId = useContext(ChatIdContext);
     const currentUser = useContext(CurrentUserContext);
+    const update = useContext(ForceUpdateContext);
 
     const getChatMessage = async () => {
         try {
@@ -39,7 +41,7 @@ export default function ChatConversation() {
         }, 1000);
 
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    }, [chatId])
+    }, [chatId, update.forceUpdate])
     
     const likeButtonHandler = async (language = "en") => {
         if (currentUser !== undefined && currentUser.id.currentUserID !== undefined &&  chatId !== undefined) {
@@ -47,7 +49,9 @@ export default function ChatConversation() {
 
             let message = (language === "zh" ? "我喜欢" : "I like it.");
 
-            sendMessage(currentUser.id.currentUserID, target_id, chatId, "text", message);
+            await sendMessage(currentUser.id.currentUserID, target_id, chatId, "text", message);
+
+            update.setForceUpdate(forceUpdate => forceUpdate + 1);
         }
     }
 
@@ -57,7 +61,9 @@ export default function ChatConversation() {
 
             let message = (language === "zh" ? "我不喜欢" : "I do not like it.");
 
-            sendMessage(currentUser.id.currentUserID, target_id, chatId, "text", message);
+            await sendMessage(currentUser.id.currentUserID, target_id, chatId, "text", message);
+
+            update.setForceUpdate(forceUpdate => forceUpdate + 1);
         }
     }
 
