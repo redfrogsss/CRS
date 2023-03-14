@@ -10,6 +10,7 @@ import { PageInterface } from "../interfaces/PageInterface";
 import ChatHeader from "../components/chat/ChatHeader";
 import isChinese from "is-chinese";
 import ChatConversation from "../components/chat/ChatConversation";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 
 export default function HomePage({
     currentUsername,
@@ -32,6 +33,12 @@ export default function HomePage({
 
     const { chatId } = useParams();
     const [chatIdState, setChatIdState] = useState(chatId);
+
+    const currentUser = useContext(CurrentUserContext);
+
+    useEffect(()=>{
+        console.log("currentUser", currentUser);
+    }, [])
 
     useEffect(() => {
         setChatIdState(chatId);

@@ -8,6 +8,7 @@ import RegisterSuccessToast from "../components/toasts/RegisterSuccess";
 import { BackendUrl } from "../context/BackendUrl";
 import { PageInterface } from "../interfaces/PageInterface";
 import WebTitle from "../components/loginFields/WebTitle";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 
 export default function LoginPage({
     currentUsername,
