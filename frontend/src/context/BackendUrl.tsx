@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 const isProduction = (): boolean => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
@@ -10,7 +10,7 @@ const isProduction = (): boolean => {
     }
 };
 
-const getBackendURL = (): string => {
+export const getBackendURL = (): string => {
     if (isProduction() === true) {
         // if (!process.env.REACT_APP_PROD_API_URL) {
         //     console.error("Environment Variable not found. Did you define environment variable in docker / docker-compose?");
