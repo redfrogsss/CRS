@@ -411,7 +411,45 @@ def postExtractEntity():
 
             connection.commit()
             return jsonify({"result": "success"})
+        
+@app.route("/api/username", methods=["POST"])
+def postUser():
+    print("post user")
+    user_id = request.args.get("user_id")
+    new_username = request.args.get("new_username")
+    
+    if not user_id:
+        return jsonify({"error": "Data 'user_id' is empty. "})
+    if not new_username or len(new_username) == 0:
+        return jsonify({"error": "Data 'new_username' is empty. "})
 
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "UPDATE `user` SET `username` = %s WHERE `id` = %s"
+            cursor.execute(sql, (new_username, user_id))
+
+            connection.commit()
+            return jsonify({"result": "success"})
+        
+@app.route("/api/password", methods=["POST"])
+def postPassword():
+    user_id = request.args.get("user_id")
+    password = request.args.get("password")
+    
+    if not user_id:
+        return jsonify({"error": "Data 'user_id' is empty. "})
+    if not password or len(password) == 0:
+        return jsonify({"error": "Data 'password' is empty. "})
+
+    connection = getConnection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "UPDATE `user` SET `password` = %s WHERE `user`.`id` = %s"
+            cursor.execute(sql, (password, user_id))
+
+            connection.commit()
+            return jsonify({"result": "success"})
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
