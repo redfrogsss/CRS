@@ -11,19 +11,19 @@ app = Flask(__name__, static_folder="../frontend/build/static/", template_folder
 CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.after_request
-def add_cors_headers(response):
-    white = ['http://192.168.0.37:3000']
-    r = request.referrer[:-1]
-    if r in white:
-        # response.headers.add('Access-Control-Allow-Origin', r)
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
-        response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
-        response.headers.add('Access-Control-Allow-Headers', 'Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-    return response
+# @app.after_request
+# def add_cors_headers(response):
+#     white = ['http://192.168.0.37:3000']
+#     r = request.referrer[:-1]
+#     if r in white:
+#         # response.headers.add('Access-Control-Allow-Origin', r)
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+#         response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
+#         response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
+#         response.headers.add('Access-Control-Allow-Headers', 'Authorization')
+#         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+#     return response
 
 def getConnection():
     # Connect to the database
