@@ -1,5 +1,5 @@
 // import isChinese from "is-chinese";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 interface SystemRecommendChatInterface {
     content: string;
@@ -31,9 +31,9 @@ export default function SystemRecommendChat({ content, timestamp, likeButtonHand
         return language;
     }
 
-    useEffect(()=>{
-        console.log(content.trim(), isChinese(content.trim()))
-    }, [])
+    // useEffect(()=>{
+    //     console.log(content.trim(), isChinese(content.trim()))
+    // }, [])
 
     return (
         <>

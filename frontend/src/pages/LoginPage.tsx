@@ -8,7 +8,7 @@ import RegisterSuccessToast from "../components/toasts/RegisterSuccess";
 import { BackendUrl } from "../context/BackendUrl";
 import { PageInterface } from "../interfaces/PageInterface";
 import WebTitle from "../components/loginFields/WebTitle";
-import { CurrentUserContext } from "../context/CurrentUserContext";
+// import { CurrentUserContext } from "../context/CurrentUserContext";
 
 export default function LoginPage({
     currentUsername,
@@ -23,7 +23,7 @@ export default function LoginPage({
 
     useEffect(() => {
         // show register success
-        console.log("regSuccess = ", searchParams.get("regSuccess"))
+        // console.log("regSuccess = ", searchParams.get("regSuccess"))
 
         let regSuccess = searchParams.get("regSuccess");
 
@@ -50,8 +50,8 @@ export default function LoginPage({
     const onSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault();
 
-        console.log(email, password);
-        console.log(BackendURL);
+        // console.log(email, password);
+        // console.log(BackendURL);
 
         const UrlWithQuery = new URL(BackendURL);
         UrlWithQuery.searchParams.append("email", email);
@@ -60,7 +60,7 @@ export default function LoginPage({
         axios
             .post(UrlWithQuery.href)
             .then((result) => {
-                console.log(result.data.result);
+                // console.log(result.data.result);
                 let loginStatus = result.data.result;
                 if (loginStatus === "success") {
                     if (setCurrentUsername !== undefined) {
