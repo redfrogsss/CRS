@@ -49,7 +49,7 @@ export default function HomePage() {
     return (
         <ForceUpdateContext.Provider value={{ forceUpdate, setForceUpdate }}>
             <ChatIdContext.Provider value={chatIdState}>
-                <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-[100vh] overflow-hidden">
+                <div className="grid grid-cols-4 divide-x-2 divide-blue-200 w-full h-fit overflow-hidden">
                     {/* Left Panel */}
                     <div className="w-full">
                         <div className="grid grid-cols-3 w-full min-h-[56px]">
@@ -69,7 +69,7 @@ export default function HomePage() {
                             </div>
                         </div>
                         <hr className="border-2 border-blue-200" />
-                        <div className="overflow-scroll h-[95vh]">
+                        <div className="overflow-scroll h-[calc(100vh-56px-4px)]">
                             <ChatPreview />
                         </div>
                     </div>
@@ -84,7 +84,7 @@ export default function HomePage() {
                         </div>
                         <hr className="border-2 border-blue-200" />
                         {/* conversation part in right panel */}
-                        <div className="h-[calc(100vh-56px)] overflow-scroll relative pb-12">
+                        <div className="h-[calc(100vh-56px-4px)] overflow-scroll relative pb-12">
                             <ChatConversation />
                         </div>
                         <ChatboxInput />

@@ -29,11 +29,6 @@ export default function ChatConversation() {
             let result = await axios.get(BackendURL + "/chatMessages/" + chatId)
             if (JSON.stringify(chatMessages) !== JSON.stringify(result.data)) {
                 setChatMessages(result.data);
-
-                // scroll to bottom when new message arrive
-                if (chatMessagesRef.current) {
-                    chatMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
-                }
             }
         } catch (error) {
             console.error(error);
@@ -50,6 +45,13 @@ export default function ChatConversation() {
 
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, [chatId, update.forceUpdate, chatMessages])
+
+    useEffect(() => {
+        // scroll to bottom when new message arrive
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
+    }, [chatMessages])
 
     const likeButtonHandler = async (language = "en") => {
         if (currentUser !== undefined && currentUser.id.currentUserID !== undefined && chatId !== undefined) {
@@ -93,8 +95,6 @@ export default function ChatConversation() {
 
 
     const ChatMessages = () => {
-
-
         return (
             <div>
                 {/* Chat messages go here */}
