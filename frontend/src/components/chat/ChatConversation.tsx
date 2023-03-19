@@ -26,7 +26,9 @@ export default function ChatConversation() {
     const getChatMessage = async () => {
         try {
             let result = await axios.get(BackendURL + "/chatMessages/" + chatId)
-            setChatMessages(result.data);
+            if(JSON.stringify(chatMessages) !== JSON.stringify(result.data)) {
+                setChatMessages(result.data);
+            }
         } catch (error) {
             console.error(error);
         }
