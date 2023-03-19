@@ -10,6 +10,7 @@ pymysql = "*"
 mysql-connector-python = "*"
 cryptography = "*"
 flask-cors = "*"
+pillow = "*"
 
 [dev-packages]
 
