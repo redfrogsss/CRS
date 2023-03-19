@@ -1,5 +1,7 @@
 from operator import truediv
+from PIL import Image
 import os   # for os.getenv()
+import io
 from os import environ
 from datetime import datetime
 import pymysql.cursors
@@ -89,6 +91,10 @@ def serve(path):
 @app.route("/img/<path:path>")
 def serve_img(path):
     return send_from_directory("../frontend/build/img/", path)
+
+@app.route("/images/<path:path>")
+def serve_movie_poster(path):
+    return send_from_directory("./images/", path)
 
 # fetch message from id
 @app.route("/api/message/<string:id>", methods=["GET"])
@@ -450,6 +456,73 @@ def postPassword():
 
             connection.commit()
             return jsonify({"result": "success"})
+
+# Create a POST route with a function to receive and store the image
+@app.route('/api/movie_poster', methods=['POST'])
+def store_image():
+    try:
+        now = datetime.now()
+        hostname = request.host_url
+        
+        chat_id = request.args.get("chat_id")
+        user_id = request.args.get("user_id")
+        
+        type = "image"
+        created_at = now.strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Get the image data from the request
+        image = request.data
+        
+        filename = chat_id + "_" + now.strftime("%Y-%m-%d_%H%M%S")
+
+        # Define the location to save the image
+        if request.content_type == "image/png":
+            filename += '.png'
+            ext = "PNG"
+        else:
+            filename += '.jpeg'
+            ext = "JPEG"
+        
+        # filename = request.files['image'].filename
+        path = os.path.join(os.getcwd(), 'images', filename)
+
+        # Save the image to the specified location
+        img = Image.open(io.BytesIO(image))
+        img.save(path, ext)
+        print("Saved Image : " + path)
+        
+        content = hostname + "images/" + filename
+        
+        if not content:
+            print("Data 'content' is empty.")
+            return jsonify({"error": "Data 'content' is empty. "})
+        if not type:
+            print("Data 'type' is empty.")
+            return jsonify({"error": "Data 'type' is empty. "})
+        if not isValidType(type):
+            print("Data 'type' is invalid.")
+            return jsonify({"error": "Data 'type' is not valid."})
+        if not user_id:
+            print("Data 'user_id' is empty.")
+            return jsonify({"error": "Data 'user_id' is empty."})
+        if not chat_id:
+            print("Data 'chat_id' is empty.")
+            return jsonify({"error": "Data 'chat_id' is empty."})
+
+
+        connection = getConnection()
+        with connection:
+            with connection.cursor() as cursor:
+                sql = "INSERT INTO `message` (chat_id, user_id, type, content, created_at) VALUE (%s, %s, %s, %s, %s)"
+                cursor.execute(sql, (chat_id, user_id, type, content, created_at,))
+
+                connection.commit()
+                return jsonify({"result": "success"})
+            
+    except Exception as e:
+        # Return a failure response
+        print(str(e))
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
