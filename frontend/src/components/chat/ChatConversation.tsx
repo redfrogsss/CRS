@@ -17,6 +17,7 @@ export default function ChatConversation() {
     const navigate = useNavigate();
 
     const [chatMessages, setChatMessages] = useState<any>([]);
+    const chatMessagesRef = useRef<HTMLDivElement>(null);
 
     const BackendURL = useContext(BackendUrl);
     const chatId = useContext(ChatIdContext);
@@ -26,14 +27,19 @@ export default function ChatConversation() {
     const getChatMessage = async () => {
         try {
             let result = await axios.get(BackendURL + "/chatMessages/" + chatId)
-            if(JSON.stringify(chatMessages) !== JSON.stringify(result.data)) {
+            if (JSON.stringify(chatMessages) !== JSON.stringify(result.data)) {
                 setChatMessages(result.data);
+
+                // scroll to bottom when new message arrive
+                if (chatMessagesRef.current) {
+                    chatMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
+                }
             }
         } catch (error) {
             console.error(error);
         }
     }
-    
+
     // update chat message every second
     useEffect(() => {
         getChatMessage();
@@ -43,10 +49,10 @@ export default function ChatConversation() {
         }, 1000);
 
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    }, [chatId, update.forceUpdate])
-    
+    }, [chatId, update.forceUpdate, chatMessages])
+
     const likeButtonHandler = async (language = "en") => {
-        if (currentUser !== undefined && currentUser.id.currentUserID !== undefined &&  chatId !== undefined) {
+        if (currentUser !== undefined && currentUser.id.currentUserID !== undefined && chatId !== undefined) {
             let target_id = await getTargetID(chatId, currentUser.id.currentUserID);
 
             let message = (language === "zh" ? "我喜欢" : "I like it.");
@@ -69,14 +75,14 @@ export default function ChatConversation() {
         }
     }
 
-    const sendSampleTextHandler = async (message:string) => {
+    const sendSampleTextHandler = async (message: string) => {
 
         if (currentUser !== undefined && currentUser.id.currentUserID !== undefined) {
 
             let target_id = undefined;
 
             let chat_id = chatId ?? "";
-            if(chat_id !== "") {
+            if (chat_id !== "") {
                 target_id = await getTargetID(chat_id, currentUser.id.currentUserID);
             }
 
@@ -87,15 +93,8 @@ export default function ChatConversation() {
 
 
     const ChatMessages = () => {
-        const chatMessagesRef = useRef<HTMLDivElement>(null);
 
-        // scroll to bottom when new message arrive
-        useEffect(() => {
-            if (chatMessagesRef.current) {
-                chatMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-        }, [chatMessages]);
-        
+
         return (
             <div>
                 {/* Chat messages go here */}
@@ -133,7 +132,7 @@ export default function ChatConversation() {
                         }
                     }
                 )}
-                <div ref={chatMessagesRef}/>
+                <div ref={chatMessagesRef} />
             </div>
         );
     };
@@ -143,7 +142,7 @@ export default function ChatConversation() {
         const exampleInputs = ["I am looking for scary and horror movie.", "I would like to watch a fantasy movie.", "有没有推荐的爱情电影?", "我想看喜剧电影"]
 
         const showExampleButton = () => {
-            return exampleInputs.map((example, index)=>{
+            return exampleInputs.map((example, index) => {
                 return (
                     <button
                         type="button"
