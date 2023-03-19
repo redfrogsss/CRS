@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackendUrl } from "../../context/BackendUrl";
 import { ChatIdContext } from "../../context/ChatIdContext";
@@ -87,39 +87,54 @@ export default function ChatConversation() {
 
 
     const ChatMessages = () => {
-        return chatMessages.map(
-            (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
+        const chatMessagesRef = useRef<HTMLDivElement>(null);
 
-                if (currentUser === undefined) return;
+        // scroll to bottom when new message arrive
+        useEffect(() => {
+            if (chatMessagesRef.current) {
+                chatMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
+            }
+        }, [chatMessages]);
+        
+        return (
+            <div>
+                {/* Chat messages go here */}
+                {chatMessages.map(
+                    (message: { user_id: number; content: string; created_at: string; type: string }, index: number) => {
 
-                let message_user_id = message.user_id.toString();
-                const isLastItem = (index === chatMessages.length - 1);
-                const isImageType = (message.type === "image");
-                const isTextType = (message.type === "text");
-                const isRecommendType = (message.type === "recommend");
-                const isUserChat = (message_user_id === currentUser.id.currentUserID?.toString());
+                        if (currentUser === undefined) return;
 
-                if (isUserChat) {
-                    return (<UserTextChat content={message.content} timestamp={message.created_at} key={index}/>)
-                } else {
-                    // system chat
-                    if (isLastItem) {
-                        if (isTextType) {
-                            return (<SystemTextChat content={message.content} timestamp={message.created_at} key={index}/>)
-                        } else if (isRecommendType) {
-                            return (<SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} key={index}/>);
-                        } else if (isImageType) {
-                            return (<SystemImageChat url={message.content} timestamp={message.created_at} key={index}/>)
-                        }
-                    } else {
-                        if (isImageType) {
-                            return (<SystemImageChat url={message.content} timestamp={message.created_at} key={index}/>);
+                        let message_user_id = message.user_id.toString();
+                        const isLastItem = (index === chatMessages.length - 1);
+                        const isImageType = (message.type === "image");
+                        const isTextType = (message.type === "text");
+                        const isRecommendType = (message.type === "recommend");
+                        const isUserChat = (message_user_id === currentUser.id.currentUserID?.toString());
+
+                        if (isUserChat) {
+                            return (<UserTextChat content={message.content} timestamp={message.created_at} key={index} />)
                         } else {
-                            return (<SystemTextChat content={message.content} timestamp={message.created_at} key={index}/>);
+                            // system chat
+                            if (isLastItem) {
+                                if (isTextType) {
+                                    return (<SystemTextChat content={message.content} timestamp={message.created_at} key={index} />)
+                                } else if (isRecommendType) {
+                                    return (<SystemRecommendChat content={message.content} timestamp={message.created_at} likeButtonHandler={likeButtonHandler} dislikeButtonHandler={dislikeButtonHandler} key={index} />);
+                                } else if (isImageType) {
+                                    return (<SystemImageChat url={message.content} timestamp={message.created_at} key={index} />)
+                                }
+                            } else {
+                                if (isImageType) {
+                                    return (<SystemImageChat url={message.content} timestamp={message.created_at} key={index} />);
+                                } else {
+                                    return (<SystemTextChat content={message.content} timestamp={message.created_at} key={index} />);
+                                }
+                            }
                         }
                     }
-                }
-            }
+                )}
+                <div ref={chatMessagesRef}/>
+            </div>
         );
     };
 
