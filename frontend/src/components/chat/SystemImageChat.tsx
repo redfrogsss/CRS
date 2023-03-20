@@ -11,7 +11,7 @@ export default function SystemImageChat({
         <div className="flex justify-start px-8 py-2">
             <div className="block px-4 pt-4 py-2 max-w-md h-fit rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 bg-blue-300">
                 <img
-                    className="w-full h-[calc(100%-20px)] object-contain rounded"
+                    className="w-full h-[calc(100%-20px)] max-h-[50vh] object-contain rounded"
                     src={url}
                     alt="Movie Poster"
                     title="Movie Poster"
