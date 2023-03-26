@@ -10,7 +10,7 @@ export const createNewConversation = async (currentUserID: string) => {
 
             const registerURL = new URL(BackendURL + "/register");
             const username =
-                "SystemUser" + Math.floor(Math.random() * 99999).toString();
+                "Movie Recommender " + Math.floor(Math.random() * 99999).toString();
             registerURL.searchParams.append("email", username + "@crs.com");
             registerURL.searchParams.append("username", username);
             registerURL.searchParams.append("password", "123456");
