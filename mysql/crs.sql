@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 26, 2023 at 12:57 PM
+-- Generation Time: Mar 27, 2023 at 02:46 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -147,7 +147,70 @@ INSERT INTO `chat` (`id`, `user_a_id`, `user_b_id`) VALUES
 (107, 1, 114),
 (108, 1, 115),
 (109, 1, 116),
-(110, 1, 117);
+(110, 1, 117),
+(111, 1, 118),
+(112, 1, 119),
+(113, 1, 120),
+(114, 1, 121),
+(115, 1, 122),
+(116, 1, 123),
+(117, 1, 124),
+(118, 1, 125),
+(119, 1, 126),
+(120, 1, 127),
+(121, 1, 128),
+(122, 1, 129);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `context`
+--
+
+CREATE TABLE `context` (
+  `id` int NOT NULL,
+  `chat_id` int NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `stage` varchar(255) NOT NULL,
+  `context_tokens` longtext NOT NULL,
+  `context_entities` longtext NOT NULL,
+  `context_words` longtext NOT NULL,
+  `context_items` longtext NOT NULL,
+  `user_profile` longtext NOT NULL,
+  `interaction_history` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `context`
+--
+
+INSERT INTO `context` (`id`, `chat_id`, `model`, `stage`, `context_tokens`, `context_entities`, `context_words`, `context_items`, `user_profile`, `interaction_history`) VALUES
+(1, 109, 'kgsf', 'rec', '[[4, 15, 11, 5], [4, 15, 11, 5]]', '[8405, 358]', '[10674, 12910, 23947]', '[8405, 358]', '[]', '[8405, 358]'),
+(2, 109, 'kgsf', 'conv', '[[4, 15, 11, 5], [130, 24, 130, 3815, 25, 7], [4, 15, 11, 5], [4, 50, 1040, 927, 24, 130, 6, 241, 15, 130, 110, 6, 15, 3219, 25, 66, 28, 75, 90]]', '[]', '[10674, 12910, 23947, 22920, 12228, 1009, 6778, 2365, 18, 8338, 10240, 16928, 15614, 518, 23130, 18512, 19873]', '[]', '[]', '[]'),
+(3, 111, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 11, 5]]', '[43389, 908, 6781, 29481]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 12910, 23947]', '[43389, 43389, 29481]', '[]', '[43389, 29481]'),
+(4, 111, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [130, 6, 45, 15, 130, 40, 53, 40, 53, 40, 3497, 6, 14, 67, 1040, 927, 40, 60, 313, 14, 18, 12, 313, 6, 14, 8, 27, 62, 262], [4, 15, 11, 5], [66, 36, 7]]', '[43389, 908, 6781]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 22920, 10240, 14076, 12910, 17456, 5057, 13701, 18076, 18, 8338, 15817, 8251, 5961, 10385, 16553, 11497, 5320, 5848, 23947, 15796]', '[43389]', '[]', '[]'),
+(5, 112, 'kgsf', 'rec', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [4, 15, 11, 5]]', '[394, 6939, 6781, 8405, 24639]', '[10674, 1569, 12910, 13929, 7951, 16553, 3590, 3437, 23947]', '[8405, 24639]', '[]', '[8405, 24639]'),
+(6, 112, 'kgsf', 'conv', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [31, 6, 18, 130, 10, 3946, 3946, 14247, 26, 35, 13, 5], [4, 15, 11, 5], [4, 14, 29, 18, 12, 20, 5, 4, 84, 14, 22, 48, 11, 5]]', '[394, 6939, 6781]', '[10674, 1569, 12910, 13929, 7951, 16553, 3590, 3437, 13701, 10240, 5961, 22920, 6931, 110, 24088, 22045, 14047, 23947, 4389, 10385, 17801, 26]', '[]', '[]', '[]'),
+(7, 113, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 11, 5]]', '[43389, 908, 6781, 29481]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 12910, 23947]', '[43389, 43389, 29481]', '[]', '[43389, 29481]'),
+(8, 113, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 127, 25, 36, 7, 31, 6, 18, 130, 12, 45, 94, 27, 21, 6, 18, 12, 20, 36, 1040, 927], [4, 15, 11, 5], [66, 36, 7]]', '[43389, 908, 6781]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 12910, 6778, 15796, 13701, 10240, 5961, 22920, 10385, 14076, 18483, 11497, 17801, 18, 8338, 23947]', '[43389]', '[]', '[]'),
+(9, 114, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 11, 5]]', '[43389, 908, 6781, 29481]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 12910, 23947]', '[43389, 43389, 29481]', '[]', '[43389, 29481]'),
+(10, 114, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [39, 7], [4, 15, 11, 5], [31, 6, 18, 130, 13150]]', '[43389, 908, 6781]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 13136, 12910, 23947, 13701, 10240, 5961, 22920, 9200]', '[43389]', '[]', '[]'),
+(11, 115, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 11, 5]]', '[43389, 908, 6781, 29481]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 10674, 12910, 23947]', '[43389, 43389, 29481]', '[]', '[43389, 29481]'),
+(12, 115, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [31, 6, 18, 130, 4, 45, 94, 367, 6, 15, 12, 20, 36, 1040, 927], [4, 15, 11, 5], [130, 258, 8, 155, 19, 345, 1561, 5, 61, 21, 16, 3451, 7, 156, 1216, 130, 130, 130, 17, 204, 9, 130, 17, 35, 13, 7, 156, 130]]', '[43389, 908, 6781]', '[10674, 13600, 13942, 19300, 4821, 12228, 5470, 3437, 13701, 10240, 5961, 22920, 14076, 18483, 5002, 12910, 10385, 17801, 15796, 18, 8338, 10674, 12910, 23947, 22920, 680, 16553, 8964, 18550, 18201, 5723, 17499, 19300, 10095, 9015, 16926, 13256, 22045, 14047]', '[43389]', '[]', '[]'),
+(13, 116, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [4, 15, 11, 5]]', '[43389, 908, 6781]', '[13600, 13942, 19300, 4821, 12228, 5470, 3437]', '[43389, 43389, 29481]', '[]', '[43389, 29481]'),
+(14, 116, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [3451, 3451, 42, 4652, 5, 134, 31, 6, 964, 6, 964, 29, 2979, 193, 130, 7], [4, 15, 11, 5], [4, 78, 92, 19, 130, 5]]', '[43389, 908, 6781]', '[13600, 13942, 4821, 12228, 5470, 3437, 18719, 9185, 8759, 13701, 10240, 4779, 4389, 4812, 2424, 37, 5181]', '[43389]', '[]', '[]'),
+(15, 117, 'kgsf', 'rec', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [4, 15, 11, 5]]', '[394, 6939, 8405, 358]', '[1569, 13929, 7951, 16553, 3590]', '[8405, 358]', '[]', '[8405, 358]'),
+(16, 117, 'kgsf', 'conv', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [130, 24, 130], [4, 15, 11, 5], [130, 24, 130]]', '[394, 6939]', '[1569, 13929, 7951, 3590]', '[]', '[]', '[]'),
+(17, 118, 'kgsf', 'rec', '[[114, 6, 14, 71, 13, 50, 24, 318, 23, 10], [4, 38, 44, 15, 11, 5], [4, 38, 44, 15, 11, 5]]', '[54274, 4813, 20238]', '[9447, 10240, 13701, 19188, 14047, 2365, 311, 24196, 10674, 9447, 24196, 12910, 23947]', '[8405, 20238]', '[]', '[8405, 20238]'),
+(18, 118, 'kgsf', 'conv', '[[114, 6, 14, 71, 13, 50, 24, 318, 23, 10], [130, 293, 28, 63, 13, 36, 7, 31, 6, 18, 130, 293, 28, 67, 19, 52, 109, 25, 5], [4, 38, 44, 15, 11, 5], [4, 14, 29, 18, 12, 20, 5, 4, 84, 14, 22, 48, 11, 336, 5, 4, 222, 22, 48, 11, 7]]', '[54274, 4813]', '[9447, 19188, 2365, 311, 3912, 23130, 19193, 15796, 5961, 18076, 153, 889, 6778, 10674, 9447, 24196, 12910, 23947, 13701, 4389, 5961, 10385, 17801, 26, 13929, 7951, 1183, 16763]', '[]', '[]', '[]'),
+(19, 119, 'kgsf', 'rec', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [105, 33, 4, 15, 11, 5, 114, 6, 14, 138, 23, 316, 10]]', '[43389, 908, 6781, 1638, 6762]', '[13600, 13942, 19300, 4821, 12228, 5470, 3437, 24084, 21852, 10240, 13701, 21939, 7679]', '[43389, 43389, 1638, 6762]', '[]', '[43389, 6762]'),
+(20, 119, 'kgsf', 'conv', '[[4, 70, 47, 21, 196, 24, 127, 23, 5], [31, 6, 18, 130, 10, 1040, 927, 10, 1639, 136, 7], [105, 33, 4, 15, 11, 5, 114, 6, 14, 138, 23, 316, 10], [3383, 61, 7, 31, 8, 27, 62, 7, 262, 7]]', '[43389, 908, 6781, 1638]', '[13600, 13942, 19300, 4821, 12228, 5470, 3437, 10240, 22920, 18, 8338, 881, 11530, 24084, 21852, 21939, 7679, 1007, 17499, 16553, 11497, 5320, 5848]', '[43389, 1638]', '[]', '[]'),
+(21, 120, 'kgsf', 'rec', '[[114, 6, 14, 71, 13, 96, 23, 316, 10], [4, 15, 11, 5], [19352]]', '[9257, 60253, 10310, 32080]', '[19188, 14047, 1619, 11497]', '[9257, 9257, 60253, 32080]', '[]', '[9257, 60253, 32080]'),
+(22, 120, 'kgsf', 'conv', '[[114, 6, 14, 71, 13, 96, 23, 316, 10], [130, 130], [4, 15, 11, 5], [130, 130, 130], [19352], [130, 130, 130, 130, 130, 130, 24, 130]]', '[9257, 10310]', '[19188, 14047, 1619]', '[9257]', '[]', '[]'),
+(23, 121, 'kgsf', 'rec', '[[4, 74, 15, 22, 48, 123, 96, 23, 5]]', '[394, 9257, 6781]', '[10674, 1569, 12910, 13929, 7951, 23926, 1619, 3437]', '[9257, 9257]', '[]', '[9257]'),
+(24, 121, 'kgsf', 'conv', '[[4, 74, 15, 22, 48, 123, 96, 23, 5], [130, 130, 130, 130]]', '[394, 9257, 6781]', '[10674, 1569, 12910, 13929, 7951, 23926, 1619, 3437, 22920]', '[9257]', '[]', '[]'),
+(25, 122, 'kgsf', 'rec', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [4, 15, 11, 5]]', '[6939, 60759, 31723]', '[16553, 3590, 23947]', '[60759, 31723]', '[]', '[60759, 31723]'),
+(26, 122, 'kgsf', 'conv', '[[4, 74, 15, 22, 48, 8, 377, 23, 5], [130, 115, 905, 123, 3597, 2384], [4, 15, 11, 5], [31, 6, 18, 16, 3951, 25, 9, 130, 195, 5, 4, 60, 44, 121, 110, 6, 15, 16, 126, 195, 4, 60, 121, 58, 6, 168, 87, 95, 5]]', '[6939]', '[16553, 3590, 17634, 19069, 2744, 3126, 23947, 13701, 10240, 5961, 10095, 12660, 6778, 12721, 15817, 24196, 20743, 15614, 8625, 20768, 3787, 19374]', '[]', '[]', '[]');
 
 -- --------------------------------------------------------
 
@@ -466,7 +529,33 @@ INSERT INTO `extractEntity` (`id`, `token`, `word`) VALUES
 (631, 'ho', ''),
 (632, 'things', '<http://dbpedia.org/resource/Very_Bad_Things>'),
 (633, 'test1234', ''),
-(634, 'test1', '');
+(634, 'test1', ''),
+(635, 'chat', ''),
+(636, 'works', '<http://dbpedia.org/resource/BET_Networks>'),
+(637, 'Excelent', ''),
+(638, 'may', ''),
+(639, 'scream', '<http://dbpedia.org/resource/Scream_(1996_film)>'),
+(640, 'some', ''),
+(641, 'helped', ''),
+(642, 'etnam', '<http://dbpedia.org/resource/Vietnam_War>'),
+(643, 'had', ''),
+(644, 'twists', ''),
+(645, ':', ''),
+(646, '=', ''),
+(647, 'moveis', ''),
+(648, 'lol', ''),
+(649, 'regret', '<http://dbpedia.org/resource/Everlasting_Regret>'),
+(650, 'Those', ''),
+(651, 'favorite', '<http://dbpedia.org/resource/Favorite_Gentlemen_Recordings>'),
+(652, 'omg', ''),
+(653, 'Greate', '<http://dbpedia.org/resource/Greater_Napanee>'),
+(654, 'just', ''),
+(655, 'won', ''),
+(656, 'academy', '<http://dbpedia.org/resource/San_Dieguito_Academy>'),
+(657, 'award', '<http://dbpedia.org/resource/Robert_Award>'),
+(658, 'following', '<http://dbpedia.org/resource/The_Following>'),
+(659, 'classic', '<http://dbpedia.org/resource/Sony_Classical_Records>'),
+(660, 'could', '');
 
 -- --------------------------------------------------------
 
@@ -781,7 +870,33 @@ INSERT INTO `extractWord` (`id`, `token`, `word`) VALUES
 (658, 'ho', 'ho'),
 (659, 'things', 'things'),
 (660, 'test1234', 'te'),
-(661, 'test1', 'te');
+(661, 'test1', 'te'),
+(662, 'chat', 'chat'),
+(663, 'works', 'works'),
+(664, 'Excelent', 'excellent'),
+(665, 'may', 'may'),
+(666, 'scream', 'scream'),
+(667, 'some', 'some'),
+(668, 'helped', 'helped'),
+(669, 'etnam', 'nam'),
+(670, 'had', 'shady'),
+(671, 'twists', 'twists'),
+(672, ':', ''),
+(673, '=', ''),
+(674, 'moveis', 'moves'),
+(675, 'lol', 'lol'),
+(676, 'regret', 'regret'),
+(677, 'Those', 'os'),
+(678, 'favorite', 'favorite'),
+(679, 'omg', 'omg'),
+(680, 'Greate', 'great'),
+(681, 'just', 'just'),
+(682, 'won', 'won'),
+(683, 'academy', 'academy'),
+(684, 'award', 'award'),
+(685, 'following', 'following'),
+(686, 'classic', 'classic'),
+(687, 'could', 'ou');
 
 -- --------------------------------------------------------
 
@@ -1250,7 +1365,39 @@ INSERT INTO `input_queue` (`id`, `chat_id`, `message`, `user_id`, `language`, `d
 (448, 105, 'hello', 112, 'EN', 1),
 (449, 105, 'hello', 112, 'EN', 1),
 (450, 107, '我想看喜剧电影', 114, 'ZH', 1),
-(451, 109, 'hi', 116, 'EN', 1);
+(451, 109, 'hi', 116, 'EN', 1),
+(452, 109, 'Test', 116, 'EN', 1),
+(453, 109, 'Test', 116, 'EN', 1),
+(454, 109, 'test', 116, 'EN', 1),
+(455, 109, 'I like it.', 116, 'EN', 1),
+(456, 109, 'Scary movie recommendation', 116, 'EN', 1),
+(457, 109, 'I like it.', 116, 'EN', 1),
+(458, 109, 'I like it.', 116, 'EN', 1),
+(459, 109, 'I like it.', 116, 'EN', 1),
+(460, 111, 'I am looking for scary and horror movie.', 118, 'EN', 1),
+(461, 111, 'I like it.', 118, 'EN', 1),
+(462, 112, 'I would like to watch a fantasy movie.', 119, 'EN', 1),
+(463, 112, 'I like it.', 119, 'EN', 1),
+(464, 113, 'I am looking for scary and horror movie.', 120, 'EN', 1),
+(465, 113, 'I like it.', 120, 'EN', 1),
+(466, 114, 'I am looking for scary and horror movie.', 121, 'EN', 1),
+(467, 114, 'I like it.', 121, 'EN', 1),
+(468, 115, 'I am looking for scary and horror movie.', 122, 'EN', 1),
+(469, 115, 'I like it.', 122, 'EN', 1),
+(470, 116, 'I am looking for scary and horror movie.', 123, 'EN', 1),
+(471, 116, 'I like it.', 123, 'EN', 1),
+(472, 117, 'I would like to watch a fantasy movie.', 124, 'EN', 1),
+(473, 117, 'I like it.', 124, 'EN', 1),
+(474, 118, 'Do you have any good love and romance movie?', 125, 'EN', 1),
+(475, 118, 'I do not like it.', 125, 'EN', 1),
+(476, 119, 'I am looking for scary and horror movie.', 126, 'EN', 1),
+(477, 119, 'No but I like it. Do you have another movie recommendation?', 126, 'EN', 1),
+(478, 120, 'Do you have any good action movie recommendation?', 127, 'EN', 1),
+(479, 120, 'I like it.', 127, 'EN', 1),
+(480, 120, 'Greate', 127, 'EN', 1),
+(481, 121, 'I would like to watch an action movie.', 128, 'EN', 1),
+(482, 122, 'I would like to watch a fantasy movie.', 129, 'EN', 1),
+(483, 122, 'I like it.', 129, 'EN', 1);
 
 -- --------------------------------------------------------
 
@@ -2917,7 +3064,136 @@ INSERT INTO `message` (`id`, `chat_id`, `user_id`, `type`, `content`, `created_a
 (1641, 109, 1, 'text', 'hi', '2023-03-26 20:55:57'),
 (1642, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 20:56:00'),
 (1643, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_205601.png', '2023-03-26 20:56:01'),
-(1644, 109, 116, 'recommend', '[Response]  Hi !', '2023-03-26 20:56:03');
+(1644, 109, 116, 'recommend', '[Response]  Hi !', '2023-03-26 20:56:03'),
+(1645, 109, 1, 'text', 'Test', '2023-03-26 21:47:36'),
+(1646, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:05:47'),
+(1647, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_220548.png', '2023-03-26 22:05:48'),
+(1648, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:07:58'),
+(1649, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_220759.png', '2023-03-26 22:07:59'),
+(1650, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:08:39'),
+(1651, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_220840.png', '2023-03-26 22:08:40'),
+(1652, 109, 116, 'recommend', '[Response]  What kind of movies do you like ?', '2023-03-26 22:08:42'),
+(1653, 109, 1, 'text', 'Test', '2023-03-26 22:11:57'),
+(1654, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:12:01'),
+(1655, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_221202.png', '2023-03-26 22:12:02'),
+(1656, 109, 116, 'recommend', '[Response]  I would recommend it . It \'s a great movie .', '2023-03-26 22:12:04'),
+(1657, 109, 1, 'text', 'test', '2023-03-26 22:13:31'),
+(1658, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:13:34'),
+(1659, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_221335.png', '2023-03-26 22:13:35'),
+(1660, 109, 116, 'recommend', '[Response]  I have n\'t seen that one yet .', '2023-03-26 22:13:38'),
+(1661, 109, 1, 'text', 'I like it.', '2023-03-26 22:14:11'),
+(1662, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:14:41'),
+(1663, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_221442.png', '2023-03-26 22:14:42'),
+(1664, 109, 116, 'recommend', '[Response]  I \'m doing well , thanks for the chat .', '2023-03-26 22:14:44'),
+(1665, 109, 1, 'text', 'Scary movie recommendation', '2023-03-26 22:16:05'),
+(1666, 109, 116, 'text', '[Recommend] Scary Movie', '2023-03-26 22:17:33'),
+(1667, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_221734.png', '2023-03-26 22:17:34'),
+(1668, 109, 116, 'recommend', '[Response]  this , this ! Have you seen that works well !', '2023-03-26 22:17:35'),
+(1669, 109, 1, 'text', 'I like it.', '2023-03-26 22:17:38'),
+(1670, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:19:03'),
+(1671, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_221904.png', '2023-03-26 22:19:04'),
+(1672, 109, 116, 'recommend', '[Response]  Hello ! What kind of movie do you like ?', '2023-03-26 22:19:07'),
+(1673, 109, 1, 'text', 'I like it.', '2023-03-26 22:19:11'),
+(1674, 109, 116, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-26 22:20:07'),
+(1675, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_222008.png', '2023-03-26 22:20:08'),
+(1676, 109, 116, 'recommend', '[Response]  this and this Excelent movies !', '2023-03-26 22:20:11'),
+(1677, 109, 1, 'text', 'I like it.', '2023-03-26 22:20:37'),
+(1678, 109, 116, 'text', '[Recommend] Pitch Perfect', '2023-03-26 22:20:40'),
+(1679, 109, 116, 'image', 'http://192.168.0.37:3001/images/109_2023-03-26_222042.png', '2023-03-26 22:20:42'),
+(1680, 109, 116, 'recommend', '[Response]  I love adam sandler and this you may like this if you like scream movies You are as well', '2023-03-26 22:20:43'),
+(1681, 111, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 09:49:12'),
+(1682, 111, 118, 'text', '[Recommend] Scary Movie', '2023-03-27 09:49:16'),
+(1683, 111, 118, 'image', 'http://192.168.0.37:3001/images/111_2023-03-27_094917.png', '2023-03-27 09:49:17'),
+(1684, 111, 118, 'recommend', '[Response]  this you will like this i think i think i hoped you have some adam sandler i \'m helped have seen that helped you have a great day goodbye', '2023-03-27 09:49:20'),
+(1685, 111, 1, 'text', 'I like it.', '2023-03-27 09:49:31'),
+(1686, 111, 118, 'text', '[Recommend] A Nightmare on Elm Street (franchise)', '2023-03-27 09:49:43'),
+(1687, 111, 118, 'image', 'http://192.168.0.37:3001/images/111_2023-03-27_094944.png', '2023-03-27 09:49:44'),
+(1688, 111, 118, 'recommend', '[Response]  You too !', '2023-03-27 09:49:46'),
+(1689, 112, 1, 'text', 'I would like to watch a fantasy movie.', '2023-03-27 10:01:07'),
+(1690, 112, 119, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-27 10:03:18'),
+(1691, 112, 119, 'image', 'http://192.168.0.37:3001/images/112_2023-03-27_100319.png', '2023-03-27 10:03:19'),
+(1692, 112, 119, 'recommend', '[Response]  Have you seen this ? Casey Casey Afleck was really good .', '2023-03-27 10:03:22'),
+(1693, 112, 1, 'text', 'I like it.', '2023-03-27 10:03:31'),
+(1694, 112, 119, 'text', '[Recommend] When Harry Met Sally...', '2023-03-27 10:03:34'),
+(1695, 112, 119, 'image', 'http://192.168.0.37:3001/images/112_2023-03-27_100335.png', '2023-03-27 10:03:35'),
+(1696, 112, 119, 'recommend', '[Response]  I have n\'t seen that one . I \'ll have to watch it .', '2023-03-27 10:03:36'),
+(1697, 113, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 10:05:17'),
+(1698, 113, 120, 'text', '[Recommend] Scary Movie', '2023-03-27 10:05:21'),
+(1699, 113, 120, 'image', 'http://192.168.0.37:3001/images/113_2023-03-27_100521.png', '2023-03-27 10:05:21'),
+(1700, 113, 120, 'recommend', '[Response]  I like horror movies too ! Have you seen this that will be great for you seen that one too adam sandler', '2023-03-27 10:05:23'),
+(1701, 113, 1, 'text', 'I like it.', '2023-03-27 10:05:34');
+INSERT INTO `message` (`id`, `chat_id`, `user_id`, `type`, `content`, `created_at`) VALUES
+(1702, 113, 120, 'text', '[Recommend] A Nightmare on Elm Street (franchise)', '2023-03-27 10:05:36'),
+(1703, 113, 120, 'image', 'http://192.168.0.37:3001/images/113_2023-03-27_100537.png', '2023-03-27 10:05:37'),
+(1704, 113, 120, 'recommend', '[Response]  You too !', '2023-03-27 10:05:38'),
+(1705, 114, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 10:07:38'),
+(1706, 114, 121, 'text', '[Recommend] Scary Movie', '2023-03-27 10:07:41'),
+(1707, 114, 121, 'image', 'http://192.168.0.37:3001/images/114_2023-03-27_100742.png', '2023-03-27 10:07:42'),
+(1708, 114, 121, 'recommend', '[Response]  Hi !', '2023-03-27 10:07:43'),
+(1709, 114, 1, 'text', 'I like it.', '2023-03-27 10:07:45'),
+(1710, 114, 121, 'text', '[Recommend] A Nightmare on Elm Street (franchise)', '2023-03-27 10:07:48'),
+(1711, 114, 121, 'image', 'http://192.168.0.37:3001/images/114_2023-03-27_100749.png', '2023-03-27 10:07:49'),
+(1712, 114, 121, 'recommend', '[Response]  Have you seen this etnam', '2023-03-27 10:07:50'),
+(1713, 115, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 10:11:49'),
+(1714, 115, 122, 'text', '[Recommend] Scary Movie', '2023-03-27 10:13:28'),
+(1715, 115, 122, 'image', 'http://192.168.0.37:3001/images/115_2023-03-27_101328.png', '2023-03-27 10:13:28'),
+(1716, 115, 122, 'recommend', '[Response]  Have you seen this I will be glad you like that one too adam sandler', '2023-03-27 10:13:31'),
+(1717, 115, 1, 'text', 'I like it.', '2023-03-27 10:13:35'),
+(1718, 115, 122, 'text', '[Recommend] A Nightmare on Elm Street (franchise)', '2023-03-27 10:17:08'),
+(1719, 115, 122, 'image', 'http://192.168.0.37:3001/images/115_2023-03-27_101709.png', '2023-03-27 10:17:09'),
+(1720, 115, 122, 'recommend', '[Response]  this had a lot of different twists . Thanks for the assistance ! : = this this this is actually , this is really good ! : this', '2023-03-27 10:17:11'),
+(1721, 116, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 10:18:13'),
+(1722, 116, 123, 'text', '[Recommend] Scary Movie', '2023-03-27 10:18:16'),
+(1723, 116, 123, 'image', 'http://192.168.0.37:3001/images/116_2023-03-27_101817.png', '2023-03-27 10:18:17'),
+(1724, 116, 123, 'recommend', '[Response]  assistance assistance with moveis . lol Have you wo you wo n\'t regret watching this !', '2023-03-27 10:18:18'),
+(1725, 116, 1, 'text', 'I like it.', '2023-03-27 10:18:44'),
+(1726, 116, 123, 'text', '[Recommend] A Nightmare on Elm Street (franchise)', '2023-03-27 10:18:57'),
+(1727, 116, 123, 'image', 'http://192.168.0.37:3001/images/116_2023-03-27_101858.png', '2023-03-27 10:18:58'),
+(1728, 116, 123, 'recommend', '[Response]  I \'ve heard of this .', '2023-03-27 10:18:59'),
+(1729, 117, 1, 'text', 'I would like to watch a fantasy movie.', '2023-03-27 10:19:33'),
+(1730, 117, 124, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-27 10:19:35'),
+(1731, 117, 124, 'image', 'http://192.168.0.37:3001/images/117_2023-03-27_101936.png', '2023-03-27 10:19:36'),
+(1732, 117, 124, 'recommend', '[Response]  this and this', '2023-03-27 10:19:38'),
+(1733, 117, 1, 'text', 'I like it.', '2023-03-27 10:19:47'),
+(1734, 117, 124, 'text', '[Recommend] Pitch Perfect', '2023-03-27 10:19:50'),
+(1735, 117, 124, 'image', 'http://192.168.0.37:3001/images/117_2023-03-27_101951.png', '2023-03-27 10:19:51'),
+(1736, 117, 124, 'recommend', '[Response]  this and this', '2023-03-27 10:19:53'),
+(1737, 118, 1, 'text', 'Do you have any good love and romance movie?', '2023-03-27 10:20:15'),
+(1738, 118, 125, 'text', '[Recommend] Jumanji (2017 sequel)', '2023-03-27 10:20:17'),
+(1739, 118, 125, 'image', 'http://192.168.0.37:3001/images/118_2023-03-27_102018.png', '2023-03-27 10:20:18'),
+(1740, 118, 125, 'recommend', '[Response]  this Those are so good too ! Have you seen this Those are some of my favorite movies .', '2023-03-27 10:20:20'),
+(1741, 118, 1, 'text', 'I do not like it.', '2023-03-27 10:20:24'),
+(1742, 118, 125, 'text', '[Recommend] X-Men (film)', '2023-03-27 10:20:53'),
+(1743, 118, 125, 'text', '[Recommend] North by Northwest', '2023-03-27 10:27:15'),
+(1744, 118, 125, 'image', 'http://192.168.0.37:3001/images/118_2023-03-27_102716.png', '2023-03-27 10:27:16'),
+(1745, 118, 125, 'recommend', '[Response]  I have n\'t seen that one . I \'ll have to watch it soon . I need to watch it !', '2023-03-27 10:27:18'),
+(1746, 119, 1, 'text', 'I am looking for scary and horror movie.', '2023-03-27 10:28:15'),
+(1747, 119, 126, 'text', '[Recommend] Scary Movie', '2023-03-27 10:28:18'),
+(1748, 119, 126, 'image', 'http://192.168.0.37:3001/images/119_2023-03-27_102818.png', '2023-03-27 10:28:18'),
+(1749, 119, 126, 'recommend', '[Response]  Have you seen this ? adam sandler ? Youre welcome !', '2023-03-27 10:28:20'),
+(1750, 119, 1, 'text', 'No but I like it. Do you have another movie recommendation?', '2023-03-27 10:28:38'),
+(1751, 119, 126, 'text', '[Recommend] What\'s Up, Doc? (1972 film)', '2023-03-27 10:28:41'),
+(1752, 119, 126, 'recommend', '[Response]  omg Thanks ! Have a great day ! goodbye !', '2023-03-27 10:28:42'),
+(1753, 120, 1, 'text', 'Do you have any good action movie recommendation?', '2023-03-27 10:30:01'),
+(1754, 120, 127, 'text', '[Recommend] Last Action Hero', '2023-03-27 10:30:04'),
+(1755, 120, 127, 'image', 'http://192.168.0.37:3001/images/120_2023-03-27_103005.png', '2023-03-27 10:30:05'),
+(1756, 120, 127, 'recommend', '[Response]  this this', '2023-03-27 10:30:08'),
+(1757, 120, 1, 'text', 'I like it.', '2023-03-27 10:30:17'),
+(1758, 120, 127, 'text', '[Recommend] The Incredibles (film score)', '2023-03-27 10:30:19'),
+(1759, 120, 127, 'recommend', '[Response]  this this this', '2023-03-27 10:30:20'),
+(1760, 120, 1, 'text', 'Greate', '2023-03-27 10:30:31'),
+(1761, 120, 127, 'text', '[Recommend] Taken (film)', '2023-03-27 10:30:48'),
+(1762, 120, 127, 'recommend', '[Response]  this this this this this this and this', '2023-03-27 10:30:49'),
+(1763, 121, 1, 'text', 'I would like to watch an action movie.', '2023-03-27 10:32:22'),
+(1764, 121, 128, 'text', '[Recommend] Last Action Hero', '2023-03-27 10:32:25'),
+(1765, 121, 128, 'image', 'http://192.168.0.37:3001/images/121_2023-03-27_103226.png', '2023-03-27 10:32:26'),
+(1766, 121, 128, 'recommend', '[Response]  this this this this', '2023-03-27 10:32:28'),
+(1767, 122, 1, 'text', 'I would like to watch a fantasy movie.', '2023-03-27 10:32:40'),
+(1768, 122, 129, 'text', '[Recommend] Airplane!', '2023-03-27 10:32:42'),
+(1769, 122, 129, 'recommend', '[Response]  this just won an academy award', '2023-03-27 10:32:43'),
+(1770, 122, 1, 'text', 'I like it.', '2023-03-27 10:36:39'),
+(1771, 122, 129, 'text', '[Recommend] The Interview', '2023-03-27 10:36:42'),
+(1772, 122, 129, 'recommend', '[Response]  Have you seen the following movies , this then . I \'m not sure if you like the classic then I \'m sure what you could recommend them .', '2023-03-27 10:36:44');
 
 -- --------------------------------------------------------
 
@@ -3053,7 +3329,19 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
 (114, 'CRS Recommender 58259', 'CRS Recommender 58259@crs.com', '123456'),
 (115, 'CRS Recommender 20756', 'CRS Recommender 20756@crs.com', '123456'),
 (116, 'Movie Recommender 7202', 'Movie Recommender 7202@crs.com', '123456'),
-(117, 'Movie Recommender 89274', 'Movie Recommender 89274@crs.com', '123456');
+(117, 'Movie Recommender 89274', 'Movie Recommender 89274@crs.com', '123456'),
+(118, 'Movie Recommender 11896', 'Movie Recommender 11896@crs.com', '123456'),
+(119, 'Movie Recommender 45442', 'Movie Recommender 45442@crs.com', '123456'),
+(120, 'Movie Recommender 29091', 'Movie Recommender 29091@crs.com', '123456'),
+(121, 'Movie Recommender 79734', 'Movie Recommender 79734@crs.com', '123456'),
+(122, 'Movie Recommender 76161', 'Movie Recommender 76161@crs.com', '123456'),
+(123, 'Movie Recommender 8100', 'Movie Recommender 8100@crs.com', '123456'),
+(124, 'Movie Recommender 43720', 'Movie Recommender 43720@crs.com', '123456'),
+(125, 'Movie Recommender 71574', 'Movie Recommender 71574@crs.com', '123456'),
+(126, 'Movie Recommender 14401', 'Movie Recommender 14401@crs.com', '123456'),
+(127, 'Movie Recommender 48247', 'Movie Recommender 48247@crs.com', '123456'),
+(128, 'Movie Recommender 40485', 'Movie Recommender 40485@crs.com', '123456'),
+(129, 'Movie Recommender 82124', 'Movie Recommender 82124@crs.com', '123456');
 
 --
 -- Indexes for dumped tables
@@ -3063,6 +3351,12 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
 -- Indexes for table `chat`
 --
 ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `context`
+--
+ALTER TABLE `context`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3103,37 +3397,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+
+--
+-- AUTO_INCREMENT for table `context`
+--
+ALTER TABLE `context`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `extractEntity`
 --
 ALTER TABLE `extractEntity`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=635;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
 
 --
 -- AUTO_INCREMENT for table `extractWord`
 --
 ALTER TABLE `extractWord`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=662;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=688;
 
 --
 -- AUTO_INCREMENT for table `input_queue`
 --
 ALTER TABLE `input_queue`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=452;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=484;
 
 --
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1645;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1773;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
