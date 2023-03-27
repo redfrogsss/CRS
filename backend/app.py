@@ -523,6 +523,123 @@ def store_image():
         # Return a failure response
         print(str(e))
         return jsonify({'error': str(e)}), 400
+    
+@app.route('/api/context', methods=['GET'])
+def get_context():
+    try:
+        chat_id = request.values.get("chat_id")
+        model = request.values.get("model")
+        stage = request.values.get("stage")
+        
+        if not chat_id:
+            return jsonify({"error": "Data 'chat_id' is empty. "})
+        if not model:
+            return jsonify({"error": "Data 'model' is empty. "})
+        if not stage:
+            return jsonify({"error": "Data 'stage' is empty. "})
+        
+        connection = getConnection()
+        with connection:
+            with connection.cursor() as cursor:
+                # Get the last record if there are multiple records
+                sql = "SELECT * from `context` WHERE `chat_id` = %s AND `model` = %s AND `stage` = %s ORDER BY `id` DESC LIMIT 1"
+                cursor.execute(sql, (chat_id, model, stage))
+                result = cursor.fetchone()
+                if result is None:
+                    return jsonify({"result": "None"})
+                return jsonify({"result": result})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/context', methods=['POST'])
+def post_context():
+    # return(jsonify(request.form))
+    try:
+        chat_id = request.form.get("chat_id")
+        model = request.form.get("model")
+        stage = request.form.get("stage")
+        context_tokens = request.form.get("context_tokens")
+        context_entities = request.form.get("context_entities")
+        context_words = request.form.get("context_words")
+        context_items = request.form.get("context_items")
+        user_profile = request.form.get("user_profile")
+        interaction_history = request.form.get("interaction_history")
+        
+        if not chat_id:
+            return jsonify({"error": "Data 'chat_id' is empty. "})
+        if not model:
+            return jsonify({"error": "Data 'model' is empty. "})
+        if not stage:
+            return jsonify({"error": "Data 'stage' is empty. "})
+        if not context_tokens:
+            return jsonify({"error": "Data 'context_token' is empty. "})
+        if not context_entities:
+            return jsonify({"error": "Data 'context_entities' is empty. "})
+        if not context_words:
+            return jsonify({"error": "Data 'context_words' is empty. "})
+        if not context_items:
+            return jsonify({"error": "Data 'context_items' is empty. "})
+        if not user_profile:
+            return jsonify({"error": "Data 'user_profile' is empty. "})
+        if not interaction_history:
+            return jsonify({"error": "Data 'interaction_history' is empty. "})
+        
+        connection = getConnection()
+        with connection:
+            with connection.cursor() as cursor:
+                sql = "INSERT INTO `context` (chat_id, model, stage, context_tokens, context_entities, context_words, context_items, user_profile, interaction_history) VALUE (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                cursor.execute(sql, (chat_id, model, stage, context_tokens, context_entities, context_words, context_items, user_profile, interaction_history,))
+
+                connection.commit()
+                return jsonify({"result": "success"})
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/context', methods=['PUT'])
+def put_context():
+    try:
+        chat_id = request.form.get("chat_id")
+        model = request.form.get("model")
+        stage = request.form.get("stage")
+        context_tokens = request.form.get("context_tokens")
+        context_entities = request.form.get("context_entities")
+        context_words = request.form.get("context_words")
+        context_items = request.form.get("context_items")
+        user_profile = request.form.get("user_profile")
+        interaction_history = request.form.get("interaction_history")
+        
+        if not chat_id:
+            return jsonify({"error": "Data 'chat_id' is empty. "})
+        if not model:
+            return jsonify({"error": "Data 'model' is empty. "})
+        if not stage:
+            return jsonify({"error": "Data 'stage' is empty. "})
+        if not context_tokens:
+            return jsonify({"error": "Data 'context_token' is empty. "})
+        if not context_entities:
+            return jsonify({"error": "Data 'context_entities' is empty. "})
+        if not context_words:
+            return jsonify({"error": "Data 'context_words' is empty. "})
+        if not context_items:
+            return jsonify({"error": "Data 'context_items' is empty. "})
+        if not user_profile:
+            return jsonify({"error": "Data 'user_profile' is empty. "})
+        if not interaction_history:
+            return jsonify({"error": "Data 'interaction_history' is empty. "})
+        
+        connection = getConnection()
+        
+        with connection:
+            with connection.cursor() as cursor:
+                sql = "UPDATE `context` SET context_tokens = %s, context_entities = %s, context_words = %s, context_items = %s, user_profile = %s, interaction_history = %s WHERE `chat_id` = %s AND `model` = %s AND `stage` = %s"
+                cursor.execute(sql, (context_tokens, context_entities, context_words, context_items, user_profile, interaction_history, chat_id, model, stage,))
+
+                connection.commit()
+                return jsonify({"result": "success"})
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True, host="0.0.0.0")
