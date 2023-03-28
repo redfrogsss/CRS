@@ -10,6 +10,7 @@ import { CurrentUserContext } from "../context/CurrentUserContext";
 import { ChatIdContext } from "../context/ChatIdContext";
 import { createNewConversation } from "../utils/createNewConversation";
 import { ForceUpdateContext } from "../context/ForceUpdate";
+import LogoutButton from "../components/navbar/LogoutButton";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -65,6 +66,7 @@ export default function HomePage() {
                                         onClickHandler={onNewConversationButtonClick}
                                     />
                                     <SettingButton />
+                                    <LogoutButton />
                                 </div>
                             </div>
                         </div>
