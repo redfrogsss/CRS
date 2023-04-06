@@ -1,5 +1,4 @@
-// import isChinese from "is-chinese";
-// import { useEffect } from "react";
+import { containsNonEnglish} from "../../utils/containNonEnglish";
 
 interface SystemRecommendChatInterface {
     content: string;
@@ -10,19 +9,10 @@ interface SystemRecommendChatInterface {
 
 export default function SystemRecommendChat({ content, timestamp, likeButtonHandler, dislikeButtonHandler }: SystemRecommendChatInterface) {
 
-    
-    const isChinese = (input = "") => {
-        let re1 = new RegExp("[\u4e00-\u9fff]+")
-        let re2 = new RegExp("[，。？！]+")
-
-        if (re1.test(input) || re2.test(input)) return true;
-        return false;
-    }
-
     const getLanguage = () => {
         let language = "";
 
-        if (isChinese(content)) {
+        if (containsNonEnglish(content)) {
             language = "zh"
         } else {
             language = "en"
@@ -30,10 +20,6 @@ export default function SystemRecommendChat({ content, timestamp, likeButtonHand
 
         return language;
     }
-
-    // useEffect(()=>{
-    //     console.log(content.trim(), isChinese(content.trim()))
-    // }, [])
 
     return (
         <>
@@ -46,8 +32,18 @@ export default function SystemRecommendChat({ content, timestamp, likeButtonHand
                 </div>
             </div>
             <div className="flex justify-start px-8 py-2">
-                <button type="button" className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={()=>{likeButtonHandler(getLanguage())}}>{(isChinese(content) ? "我喜欢" : "I like it")}</button>
-                <button type="button" className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={()=> {dislikeButtonHandler(getLanguage())}}>{(isChinese(content) ? "我不喜欢" : "I do not like it")}</button>
+                <button
+                    type="button"
+                    className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    onClick={() => { likeButtonHandler(getLanguage()) }}>
+                    {(containsNonEnglish(content) ? "我喜欢" : "I like it")}
+                </button>
+                <button
+                    type="button"
+                    className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    onClick={() => { dislikeButtonHandler(getLanguage()) }}>
+                    {(containsNonEnglish(content) ? "我不喜欢" : "I do not like it")}
+                </button>
             </div>
         </>
     );

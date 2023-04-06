@@ -139,7 +139,7 @@ export default function ChatConversation() {
 
     const WelcomeScreen = () => {
 
-        const exampleInputs = ["I am looking for scary and horror movie.", "I would like to watch a fantasy movie.", "有没有推荐的爱情电影?", "我想看喜剧电影"]
+        const exampleInputs = ["I am looking for scary and horror movie.", "I would like to watch a fantasy movie.", "有没有推荐的动作片", "我想看喜剧电影"]
 
         const showExampleButton = () => {
             return exampleInputs.map((example, index) => {

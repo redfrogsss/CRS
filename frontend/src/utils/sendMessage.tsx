@@ -1,7 +1,7 @@
 import axios from "axios";
-import isChinese from "is-chinese";
 import { getBackendURL } from "../context/BackendUrl";
 import { createNewConversation } from "./createNewConversation";
+import { containsNonEnglish } from "./containNonEnglish";
 
 export const sendMessage = async (user_id: string, target_id: string, chat_id: string, type: string = "text", message: string) => {
     // target_id means the second user id of the conversation
@@ -32,7 +32,7 @@ export const sendMessage = async (user_id: string, target_id: string, chat_id: s
             if (chat_id !== "")
                 UrlWithQuery.searchParams.append("chat_id", chat_id);
             UrlWithQuery.searchParams.append("message", message);
-            UrlWithQuery.searchParams.append("language", isChinese(message) ? "ZH" : "EN");
+            UrlWithQuery.searchParams.append("language", containsNonEnglish(message) ? "ZH" : "EN");
 
             await axios.post(UrlWithQuery.href);
             resolve(chat_id);
