@@ -38,12 +38,40 @@ To support certain features, this project uses a modified version of CRSLab to p
 ![Conversation Page with Chinese conversation example](readme-img/conversation-chinese-3.png)
 
 ## Setup
+
+To setup this project, you need to install the following prerequisite software:
+
+- Docker
+- Docker Compose
+- Python
+- PIP
+- NodeJS
+- Yarn
+- Anaconda
+
+Then, follow the following steps to setup the project:
+
 1. Clone this repo
-2. Install Docker, Python, PIP, NodeJS and Conda
-3. To run the fronend, start a new terminal and run `cd frontend && yarn && yarn start`
-4. To run the backend, start a new terminal and run `cd backend && pipenv install && pipenv run python app.py`
-5. To run the MySQL database, start a new terminal and run `cd mysql && docker-compose up`
-6. To run the conversational recommender module, follow CRSLab's readme instruction inside the `CRSLab` folder.
+```bash
+git clone --recursive https://github.com/redfrogsss/CRS
+```
+
+2. To run the fronend, start a new terminal and run the following commands:
+```bash
+cd frontend && yarn && yarn start
+```
+
+3. To run the backend, start a new terminal and run the following commands:
+```bash
+cd backend && pipenv install && pipenv run python app.py
+```
+
+4. To run the MySQL database, start a new terminal and run the following commands:
+```bash
+cd mysql && docker-compose up
+```
+
+5. To run the conversational recommender module, follow [CRSLab's readme instruction](https://github.com/redfrogsss/CRSLab) inside the `CRSLab` folder.
 
 ## Learn More
 This project was built by [Jacky FAN](https://jacky.fan) for the Final Year Project of the Bachelor's Degree in Computing at The Hong Kong Polytechnic University during 2022 and 2023.
