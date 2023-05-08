@@ -56,3 +56,4 @@ The following tech is used in this project:
 - [MySQL](https://www.mysql.com/) - Database of this project
 - [Docker](https://www.docker.com/) - Container platform for running MySQL
 - [CRSLab](https://github.com/RUCAIBox/CRSLab) - Open-source toolkit for building Conversational Recommender System
+- [Google Search API](https://developers.google.com/custom-search/) - Google Search for searching movie poster
