@@ -48,7 +48,7 @@ To support certain features, this project uses a modified version of CRSLab to p
 5. To run the conversational recommender module, follow CRSLab's readme instruction inside the `CRSLab` folder.
 
 ## Learn More
-This project is the Final Year Project of the 
+This project was built for the Final Year Project of the Bachelor's Degree in Computing at The Hong Kong Polytechnic University during 2022 and 2023.
 
 The following tech is used in this project: 
 - ReactJS - Frontend framework of this project
