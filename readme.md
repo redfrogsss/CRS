@@ -1,6 +1,6 @@
 # 💬 CRS Web
 
-CRS Web is a web-based conversational recommender system that allows AI recommender to recommend movies in a short conversation based on user's preference.
+**CRS Web** is a web-based conversational recommender system that allows AI recommender to recommend movies in a short conversation based on user's preference.
 
 ![Demo GIF](readme-img/demo.gif)
 
@@ -38,20 +38,21 @@ To support certain features, this project uses a modified version of CRSLab to p
 ![Conversation Page with Chinese conversation example](readme-img/conversation-chinese-3.png)
 
 ## Setup
-1. Install Docker, Python, PIP, NodeJS and Conda
-2. To run the fronend, start a new terminal and run `cd frontend && yarn && yarn start`
-3. To run the backend, start a new terminal and run `cd backend && pipenv install && pipenv run python app.py`
-4. To run the MySQL database, start a new terminal and run `cd mysql && docker-compose up`
-5. To run the conversational recommender module, follow CRSLab's readme instruction inside the `CRSLab` folder.
+1. Clone this repo
+2. Install Docker, Python, PIP, NodeJS and Conda
+3. To run the fronend, start a new terminal and run `cd frontend && yarn && yarn start`
+4. To run the backend, start a new terminal and run `cd backend && pipenv install && pipenv run python app.py`
+5. To run the MySQL database, start a new terminal and run `cd mysql && docker-compose up`
+6. To run the conversational recommender module, follow CRSLab's readme instruction inside the `CRSLab` folder.
 
 ## Learn More
-This project was built for the Final Year Project of the Bachelor's Degree in Computing at The Hong Kong Polytechnic University during 2022 and 2023.
+This project was built by [Jacky FAN](https://jacky.fan) for the Final Year Project of the Bachelor's Degree in Computing at The Hong Kong Polytechnic University during 2022 and 2023.
 
 The following tech is used in this project: 
-- ReactJS - Frontend framework of this project
-- TailwindCSS - Utility-first CSS framework for styling
-- Flowbite - UI components library based on TailwindCSS
-- Python Flask - Backend framework of this project
-- MySQL - Database of this project
-- Docker - Container platform for running MySQL
-- CRSLab - Open-source toolkit for building Conversational Recommender System
+- [ReactJS](https://react.dev/) - Frontend framework of this project
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework for styling
+- [Flowbite](https://flowbite.com/) - UI components library based on TailwindCSS
+- [Python Flask](https://flask.palletsprojects.com/en/2.3.x/) - Backend framework of this project
+- [MySQL](https://www.mysql.com/) - Database of this project
+- [Docker](https://www.docker.com/) - Container platform for running MySQL
+- [CRSLab](https://github.com/RUCAIBox/CRSLab) - Open-source toolkit for building Conversational Recommender System
