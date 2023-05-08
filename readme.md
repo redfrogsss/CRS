@@ -1,11 +1,8 @@
-<center>
-    <h1>💬 CRS Web </h1>
-    <p>
-        CRS Web is a web-based conversational recommender system that allows AI recommender to recommend movies in a short conversation based on user's preference.
-    </p>
-    <img src="readme-img/demo.gif" />
-</center>
+💬 CRS Web
 
+CRS Web is a web-based conversational recommender system that allows AI recommender to recommend movies in a short conversation based on user's preference.
+
+![Demo GIF](readme-img/demo.gif)
 
 ## Features
 This project aims to provide a easy-to-use interface for users to access the conversational recommender and ask for movie recommendaation. 
