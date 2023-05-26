@@ -74,7 +74,7 @@ cd mysql && docker-compose up
 5. To run the conversational recommender module, follow [CRSLab's readme instruction](https://github.com/redfrogsss/CRSLab) inside the `CRSLab` folder.
 
 ## Learn More
-This project was built by [Jacky FAN](https://jacky.fan) for the Final Year Project of the Bachelor's Degree in Computing at The Hong Kong Polytechnic University during 2022 and 2023.
+This project was built by [Jacky FAN](https://jacky.fan) for the Final Year Project during 2022 and 2023.
 
 The following tech is used in this project: 
 - [ReactJS](https://react.dev/) - Frontend framework of this project
